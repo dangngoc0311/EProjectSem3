@@ -1,0 +1,60 @@
+﻿@model LaundryOnline.Models.Service
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="page-header row">
+    <div class="header-sub-title col-md-12">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-controller="Home" asp-action="Index" class="breadcrumb-item">
+                <i class="anticon anticon-home m-r-5"></i>Home
+            </a>
+            <a class="breadcrumb-item" asp-controller="Services" asp-action="Index">Services</a>
+            <span class="breadcrumb-item active">Edit Service</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <h4>
+            Edit Service
+        </h4>
+        <div class="m-t-25">
+            <div class="row">
+                <div class="col-md-6">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="ServiceId" />
+                        <div class="form-group">
+                            <label asp-for="ServiceName" class="control-label"></label>
+                            <input asp-for="ServiceName" class="form-control" />
+                            <span asp-validation-for="ServiceName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ServiceDescription" class="control-label"></label>
+                            <textarea asp-for="ServiceDescription" class="form-control"></textarea>
+                            <span asp-validation-for="ServiceDescription" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-success" />
+                                <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace("ServiceDescription")
+    </script>
+}

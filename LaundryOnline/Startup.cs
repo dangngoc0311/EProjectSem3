@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using LaundryOnline.Models;
-
+using NToastNotify;
 namespace LaundryOnline
 {
     public class Startup
@@ -37,6 +37,14 @@ namespace LaundryOnline
 
             services.AddDbContext<LaundryOnlineContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("LaundryOnlineContext")));
+
+            services.AddMvc().AddNToastNotifyNoty(new NotyOptions
+            {
+                ProgressBar = true,
+                Timeout = 1000,
+                Theme = "metroui",
+                Layout = "topRight",
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,18 +61,18 @@ namespace LaundryOnline
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseNToastNotify();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                name: "admin",
+                template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+              );
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-                routes.MapRoute(
-                 name: "admin",
-                 template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-               );
             });
-          
+
         }
     }
 }
