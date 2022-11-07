@@ -14,6 +14,7 @@
     <!-- page css -->
     <!-- Core css -->
     <link href="~/Admin/assets/css/app.min.css" rel="stylesheet">
+    @RenderSection("Css", required: false)
 
 </head>
 
@@ -22,7 +23,7 @@
         <div class="layout">
             <!-- Header START -->
             @await Html.PartialAsync("_Header.cshtml")
-         
+
             <!-- Header END -->
             <!-- Side Nav START -->
 
@@ -209,7 +210,6 @@
         </div>
     </div>
 
-
     <!-- Core Vendors JS -->
     <script src="~/Admin/assets/js/vendors.min.js"></script>
 
@@ -219,6 +219,8 @@
 
     <!-- Core JS -->
     <script src="~/Admin/assets/js/app.min.js"></script>
+    @await Component.InvokeAsync("NToastNotify")
+    @RenderSection("Scripts", required: false)
 
 </body>
 
