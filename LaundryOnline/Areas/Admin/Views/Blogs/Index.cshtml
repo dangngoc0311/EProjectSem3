@@ -1,0 +1,145 @@
+﻿@model X.PagedList.IPagedList<LaundryOnline.Models.Blog>
+@using X.PagedList.Mvc.Core;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+<div class="page-header row">
+    <div class="header-sub-title col-md-12">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-controller="Home" asp-action="Index" class="breadcrumb-item">
+                <i class="anticon anticon-home m-r-5"></i>Home
+            </a>
+            <a class="breadcrumb-item" asp-controller="Blogs" asp-action="Index">Blog</a>
+            <span class="breadcrumb-item active">List Blogs</span>
+        </nav>
+    </div>
+    <div class="col-md-12" style="display: flex;">
+        <form action="" method="get" class="form-inline ml-lg-auto">
+            <div class="form-group">
+                <label class="sr-only" for="">label</label>
+                <input class="form-control" name="name" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-icon btn-default mr-1"><i class="fas fa-search"></i></button>
+        </form>
+        <a asp-action="Create">
+            <i class="anticon anticon-plus btn btn-icon btn-success"></i>
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-11 mx-auto">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card">
+                        <img style="max-height:250px" src="~/images/blogs/@Html.DisplayFor(modelItem => item.Image)" alt=" @Html.DisplayFor(modelItem => item.Title)" />
+                        <div class="card-body">
+                            <h4 class="m-t-10">@Html.DisplayFor(modelItem => item.Title)</h4>
+                            <p class="m-b-20">@Html.Raw(@item.Content.Substring(0, 200))</p>
+                            <div class="d-flex">
+                                <a asp-action="Edit" asp-area="Admin" asp-route-id="@item.BlogId">
+                                    <i class="anticon anticon-form btn btn-icon btn-warning mr-2"></i>
+                                </a>
+                                <a asp-action="Details" asp-area="Admin" asp-route-id="@item.BlogId">
+                                    <i class="anticon anticon-info-circle btn btn-icon btn-primary mr-2"></i>
+                                </a>
+                                <form asp-action="Delete" asp-route-id="@item.BlogId" method="post">
+                                    <button type="submit" class="btn btn-icon btn-danger" onclick="return functionConfirm(this)">
+                                        <i class="anticon anticon-delete btn btn-icon btn-danger"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <div style="margin-top: 20px;display: flex">
+                                @if (@item.Status == 1)
+                                {
+                                    <div class="d-flex align-items-center">
+                                        <div class="badge badge-success badge-dot m-r-10"></div>
+                                        <div>Active</div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="d-flex align-items-center">
+
+                                        <div class="badge badge-danger badge-dot m-r-10"></div>
+                                        <div>Non Active</div>
+                                    </div>
+                                }
+                                <div class="ml-5">@item.CreatedAt.ToShortDateString()</div>
+                            </div>
+
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="d-flex align-items-center m-t-5">
+                                <div class="avatar avatar-image avatar-sm">
+                                    <img src="assets/images/avatars/thumb-2.jpg" alt="">
+                                </div>
+                                <div class="m-l-10">
+                                    <span class="font-weight-semibold">>@Html.DisplayFor(modelItem => item.User.FullName)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-5">
+        <div class="dataTables_info">
+            Showing
+            <span class="text-danger">
+                @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+            </span>
+            of
+            <b>
+                @Model.PageCount
+            </b>
+            pages
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-7">
+        <div class="float-right ">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+                new PagedListRenderOptions
+                {
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" }
+                }
+            )
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        function functionConfirm(event) {
+            swal({
+                title: 'Are you sure?',
+                text: "You will not be able to recover this item",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'No',
+                cancelButtonClass: 'btn btn-danger',
+                showConfirmButton: true,
+                confirmButtonText: 'Yes',
+                confirmButtonClass: 'btn btn-success'
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    $('form').submit();
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+            return false;
+        }
+    </script>
+}
