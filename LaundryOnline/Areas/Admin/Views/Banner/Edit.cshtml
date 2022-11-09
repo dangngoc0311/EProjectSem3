@@ -1,0 +1,92 @@
+﻿@model LaundryOnline.Models.Banner
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="page-header row">
+    <div class="header-sub-title col-md-12">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-controller="Home" asp-action="Index" class="breadcrumb-item">
+                <i class="anticon anticon-home m-r-5"></i>Home
+            </a>
+            <a class="breadcrumb-item" asp-controller="Banner" asp-action="Index">Banner</a>
+            <span class="breadcrumb-item active">Edit Banner</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <h4>
+            Edit Banner
+        </h4>
+        <div class="m-t-25">
+            <div class="container">
+                <form asp-action="Edit" class="row" enctype="multipart/form-data">
+                    <div class="col-md-6">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="BannerId" />
+                        <input type="hidden" asp-for="Image" name="img" value="@Model.Image" />
+                        <input type="hidden" asp-for="CreatedAt" />
+                        <div class="form-group">
+                            <label asp-for="BannerTitle" class="control-label"></label>
+                            <input asp-for="BannerTitle" class="form-control" />
+                            <span asp-validation-for="BannerTitle" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Image" class="control-label"></label>
+                            <input asp-for="Image" type="file" class="form-control" onchange="loadFile(event)" />
+                            <span asp-validation-for="Image" class="text-danger"></span>
+                        </div>
+
+                        <fieldset class="form-group">
+                            <div class="row">
+                                <label class="col-form-label col-sm-2 pt-0">Status</label>
+                                <div class="col-sm-10">
+                                    <div class="radio">
+                                        <input asp-for="Status" type="radio" value="1" id="radio1">
+                                        <label for="radio1">Active</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input asp-for="Status" type="radio" value="0" id="radio2">
+                                        <label for="radio2">Non Active</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div>
+                            <img id="output" src="~/images/banner/@Model.Image" class="rounded" style="max-height: 200px;" />
+                        </div>
+
+                        <div class="form-group" style="margin: 10px 0px;">
+                            <input type="submit" value="Save" class="btn btn-success" />
+                            <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace("ServiceDescription")
+    </script>
+    <script>
+        var loadFile = function (event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('output');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        };
+    </script>
+}

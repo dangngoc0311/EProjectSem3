@@ -1,8 +1,7 @@
-﻿@model LaundryOnline.Models.Service
+﻿@model LaundryOnline.Models.Payment
 
 @{
     ViewData["Title"] = "Details";
-    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 
@@ -12,39 +11,33 @@
             <a asp-controller="Home" asp-action="Index" class="breadcrumb-item">
                 <i class="anticon anticon-home m-r-5"></i>Home
             </a>
-            <a class="breadcrumb-item" asp-controller="Services" asp-action="Index">Services</a>
-            <span class="breadcrumb-item active">Detail Service</span>
+            <a class="breadcrumb-item" asp-controller="Payments" asp-action="Index">Payments</a>
+            <span class="breadcrumb-item active">Detail Payments</span>
         </nav>
     </div>
 </div>
 <div class="card">
     <div class="card-body">
         <h4>
-            Detail Service
+            Detail Payment
         </h4>
         <div class="m-t-25">
             <div class="row">
                 <div class="col-md-6">
                     <dl class="dl-horizontal">
                         <dt>
-                            @Html.DisplayNameFor(model => model.ServiceName)
+                            @Html.DisplayNameFor(model => model.PaymentName)
                         </dt>
                         <dd>
-                            @Html.DisplayFor(model => model.ServiceName)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.ServiceDescription)
-                        </dt>
-                        <dd>
-                            @Html.Raw(Model.ServiceDescription)
+                            @Html.DisplayFor(model => model.PaymentName)
                         </dd>
                     </dl>
                 </div>
             </div>
         </div>
-       
+
         <div>
-            <a asp-action="Edit" asp-route-id="@Model.ServiceId" class="btn btn-warning" >Edit</a> 
+            <a asp-action="Edit" asp-route-id="@Model.PaymentId" class="btn btn-warning">Edit</a>
             <a asp-action="Index" class="btn btn-primary">Back to List</a>
         </div>
     </div>

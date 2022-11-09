@@ -1,0 +1,72 @@
+﻿@model LaundryOnline.Models.Banner
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="page-header row">
+    <div class="header-sub-title col-md-12">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-controller="Home" asp-action="Index" class="breadcrumb-item">
+                <i class="anticon anticon-home m-r-5"></i>Home
+            </a>
+            <a class="breadcrumb-item" asp-controller="Banner" asp-action="Index">Banner</a>
+            <span class="breadcrumb-item active">Add Banner</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <h4>
+            Add New Banner
+        </h4>
+        <div class="m-t-25">
+            <div class="container">
+                <form asp-action="Create" class="row" enctype="multipart/form-data">
+
+                    <div class="col-md-6">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="BannerTitle" class="control-label"></label>
+                            <input asp-for="BannerTitle" class="form-control" />
+                            <span asp-validation-for="BannerTitle" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Image" class="control-label"></label>
+                            <input asp-for="Image" type="file" class="form-control" onchange="loadFile(event)" required />
+                            <span asp-validation-for="Image" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <img id="output" class="rounded" style="max-height: 200px;" />
+                            <script>
+                                var loadFile = function (event) {
+                                    var reader = new FileReader();
+                                    reader.onload = function () {
+                                        var output = document.getElementById('output');
+                                        output.src = reader.result;
+                                    };
+                                    reader.readAsDataURL(event.target.files[0]);
+                                };
+                            </script>
+                        </div>
+
+                        <div class="form-group" style="margin: 10px 0px;">
+                            <input type="submit" value="Create" class="btn btn-success" />
+                            <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace("ServiceDescription")
+    </script>
+}

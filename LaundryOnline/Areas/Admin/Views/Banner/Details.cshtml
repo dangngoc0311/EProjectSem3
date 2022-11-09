@@ -1,0 +1,72 @@
+﻿@model LaundryOnline.Models.Banner
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="page-header row">
+    <div class="header-sub-title col-md-12">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-controller="Home" asp-action="Index" class="breadcrumb-item">
+                <i class="anticon anticon-home m-r-5"></i>Home
+            </a>
+            <a class="breadcrumb-item" asp-controller="Banner" asp-action="Index">Banner</a>
+            <span class="breadcrumb-item active">Detail Banner</span>
+        </nav>
+    </div>
+</div>
+<h4>
+    Detail Banner
+</h4>
+<dd>
+    @if (@Model.Status == 0)
+    {
+        <div class="d-flex align-items-center">
+            <div class="badge badge-danger badge-dot m-r-10"></div>
+            <div>Non Active</div>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex align-items-center">
+            <div class="badge badge-success badge-dot m-r-10"></div>
+            <div>Active</div>
+        </div>
+    }
+
+</dd>
+<div class="card" style="border: 4px solid rgba(0, 0, 0, .125);">
+    <div class="card-body">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="col-12">
+                        <div class="tp-slider-wrapper mt-60 position-relative">
+                            <div class="tp-slider z-index">
+                                <h5 class="tp-slider-subtitle common-yellow-shape w-80 mb-35" data-animation="fadeInUp" data-delay=".5s">Fast and efficient service</h5>
+                                <h1 class="tp-slider-title mb-45" data-animation="fadeInUp" data-delay=".8s">@Model.BannerTitle</h1>
+                                <div class="tp-slider-btn" data-animation="fadeInUp" data-delay="1.1s">
+                                    <a href="about.html" class="theme-btnsss"><i class="flaticon-enter"></i> Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    
+                    <img src="~/images/banner/@Model.Image" class="img-fluid" alt="img not found">
+                </div>
+            </div>
+            <div class="tp-slider-video-btn play_btn" style="transform: translate(-118%, -50%);">
+                <a class="venobox" data-autoplay="true" data-vbtype="video" href="https://youtu.be/o4GuSJYSzrY"><i class="fas fa-play"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-muted">
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.BannerId" class="btn btn-warning">Edit</a>
+            <a asp-action="Index" class="btn btn-primary">Back to List</a>
+        </div>
+    </div>
+</div>
