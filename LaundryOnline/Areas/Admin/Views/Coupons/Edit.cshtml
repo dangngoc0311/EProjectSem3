@@ -1,0 +1,68 @@
+﻿@model LaundryOnline.Models.Coupon
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<div class="page-header row">
+    <div class="header-sub-title col-md-12">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-controller="Home" asp-action="Index" class="breadcrumb-item">
+                <i class="anticon anticon-home m-r-5"></i>Home
+            </a>
+            <a class="breadcrumb-item" asp-controller="Coupons" asp-action="Index">Coupons</a>
+            <span class="breadcrumb-item active">Edit Coupon</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <h4>
+            Edit Coupon
+        </h4>
+        <div class="m-t-25">
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="CouponId" />
+                        <div class="form-group">
+                            <label asp-for="CouponName" class="control-label"></label>
+                            <input asp-for="CouponName" class="form-control" />
+                            <span asp-validation-for="CouponName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Discount" class="control-label"></label>
+                            <input asp-for="Discount" class="form-control" />
+                            <span asp-validation-for="Discount" class="text-danger"></span>
+                        </div>
+                        <fieldset class="form-group">
+                            <div class="row">
+                                <label class="col-form-label col-sm-3 pt-0">Status</label>
+                                <div class="col-sm-9">
+                                    <div class="radio">
+                                        <input asp-for="Status" type="radio" value="1" id="radio1">
+                                        <label for="radio1">Active</label>
+                                    </div>
+                                    <div class="radio">
+                                        <input asp-for="Status" type="radio" value="0" id="radio2">
+                                        <label for="radio2">Non Active</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+                        <input type="hidden" asp-for="CreatedAt" class="form-control" />
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-success" />
+                            <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

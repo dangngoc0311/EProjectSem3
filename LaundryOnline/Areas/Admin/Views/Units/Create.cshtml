@@ -1,0 +1,54 @@
+﻿@model LaundryOnline.Models.Unit
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="page-header row">
+    <div class="header-sub-title col-md-12">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-controller="Home" asp-action="Index" class="breadcrumb-item">
+                <i class="anticon anticon-home m-r-5"></i>Home
+            </a>
+            <a class="breadcrumb-item" asp-controller="Units" asp-action="Index">Units</a>
+            <span class="breadcrumb-item active">Add Units</span>
+        </nav>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <h4>
+            Add New Unit
+        </h4>
+        <div class="m-t-25">
+            <div class="row">
+                <div class="col-md-6">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="UnitName" class="control-label"></label>
+                            <input asp-for="UnitName" class="form-control" />
+                            <span asp-validation-for="UnitName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="UnitPrice" class="control-label"></label>
+                            <input asp-for="UnitPrice" class="form-control" />
+                            <span asp-validation-for="UnitPrice" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ServiceId" class="control-label"></label>
+                            <select asp-for="ServiceId" class="form-control" asp-items="ViewBag.ServiceName"></select>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-success" />
+                            <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
