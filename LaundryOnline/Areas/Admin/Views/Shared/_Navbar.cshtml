@@ -52,12 +52,12 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="avatar.html">Add Banner</a>
+                        <a asp-area="Admin" asp-controller="Banner" asp-action="Create">Add Banner</a>
                     </li>
                     <li>
-                        <a href="alert.html">List Banner</a>
+                        <a asp-area="Admin" asp-controller="Banner" asp-action="Index">List Banner</a>
                     </li>
-                  
+
                 </ul>
             </li>
             <li class="nav-item dropdown">
@@ -124,7 +124,7 @@
                 
             </li>
             <li class="nav-item dropdown">
-                <a class="dropdown-toggle" href="javascript:void(0);">
+                <a class="dropdown-toggle" asp-area="Admin" asp-controller="Payments" asp-action="Index">
                     <span class="icon-holder">
                         <i class="anticon anticon-file"></i>
                     </span>
