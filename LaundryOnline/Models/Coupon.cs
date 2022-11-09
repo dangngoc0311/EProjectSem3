@@ -27,7 +27,7 @@ namespace LaundryOnline.Models
         public byte Status { get; set; }
 
         [DisplayName("Created At")]
-        public DateTime? CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         [DisplayName("Updated At")]
         public DateTime? UpdatedAt { get; set; }

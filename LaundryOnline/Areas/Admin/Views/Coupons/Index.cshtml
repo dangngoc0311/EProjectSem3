@@ -1,0 +1,162 @@
+﻿@model X.PagedList.IPagedList<LaundryOnline.Models.Coupon>
+@using X.PagedList.Mvc.Core;
+@{
+    ViewData["Title"] = "Index";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+<div class="page-header row">
+    <div class="header-sub-title col-md-12">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-controller="Home" asp-action="Index" class="breadcrumb-item">
+                <i class="anticon anticon-home m-r-5"></i>Home
+            </a>
+            <a class="breadcrumb-item" asp-controller="Coupons" asp-action="Index">Coupons</a>
+            <span class="breadcrumb-item active">List Coupons</span>
+        </nav>
+    </div>
+    <div class="col-md-12" style="display: flex;">
+        <form action="" method="get" class="form-inline ml-lg-auto">
+            <div class="form-group">
+                <label class="sr-only" for="">label</label>
+                <input class="form-control" name="name" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-icon btn-default mr-1"><i class="fas fa-search"></i></button>
+        </form>
+        <a asp-action="Create">
+            <i class="anticon anticon-plus btn btn-icon btn-success"></i>
+        </a>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Coupon Id
+                    </th>
+                    <th>
+                        Coupon Name
+                    </th>
+                    <th>
+                        Discount
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Created At
+                    </th>
+                    <th>
+                        Updated At
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CouponId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CouponName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Discount)
+                        </td>
+                        <td>
+                            @if (item.Status == 0)
+                            {
+                                <div class="d-flex align-items-center">
+                                    <div class="badge badge-danger badge-dot m-r-10"></div>
+                                    <div>Non Active</div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex align-items-center">
+                                    <div class="badge badge-success badge-dot m-r-10"></div>
+                                    <div>Active</div>
+                                </div>
+                            }
+
+                        </td>
+                        <td>
+                            @item.CreatedAt.ToShortDateString()
+                        </td>
+                        <td class="d-flex">
+                            <a asp-action="Edit" asp-area="Admin" asp-route-id="@item.CouponId">
+                                <i class="anticon anticon-form btn btn-icon btn-warning mr-2"></i>
+                            </a>
+                            <a asp-action="Details" asp-area="Admin" asp-route-id="@item.CouponId">
+                                <i class="anticon anticon-info-circle btn btn-icon btn-primary mr-2"></i>
+                            </a>
+                            <form asp-action="Delete" asp-route-id="@item.CouponId" method="post">
+                                <button type="submit" class="btn btn-icon btn-danger" onclick="return functionConfirm(this)">
+                                    <i class="anticon anticon-delete btn btn-icon btn-danger"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12 col-md-5">
+                <div class="dataTables_info">
+                    Showing
+                    <span class="text-danger">
+                        @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+                    </span>
+                    of
+                    <b>
+                        @Model.PageCount
+                    </b>
+                    pages
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-7">
+                <div class="float-right ">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+                        new PagedListRenderOptions
+                        {
+                            LiElementClasses = new string[] { "page-item" },
+                            PageClasses = new string[] { "page-link" }
+                        }
+                    )
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        function functionConfirm(event) {
+            swal({
+                title: 'Are you sure?',
+                text: "You will not be able to recover this item",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'No',
+                cancelButtonClass: 'btn btn-danger',
+                showConfirmButton: true,
+                confirmButtonText: 'Yes',
+                confirmButtonClass: 'btn btn-success'
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    $('form').submit();
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+            return false;
+        }
+    </script>
+}
+

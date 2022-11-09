@@ -6,37 +6,37 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LaundryOnline.Models;
-using NToastNotify;
 using X.PagedList;
+using NToastNotify;
+
 namespace LaundryOnline.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ServicesController : Controller
+    public class CouponsController : Controller
     {
         private readonly LaundryOnlineContext _context;
         private readonly IToastNotification _toastNotification;
-
-        public ServicesController(LaundryOnlineContext context, IToastNotification toastrNotification)
+        public CouponsController(LaundryOnlineContext context, IToastNotification toastrNotification)
         {
             _context = context;
             _toastNotification = toastrNotification;
         }
 
-        // GET: Admin/Services
+        // GET: Admin/Coupons
         public async Task<IActionResult> Index(int? page, string name)
         {
             page = page ?? 1;
             int pageSize = 6;
-            var services =_context.Services.AsQueryable();
+            var coupons = _context.Coupons.AsQueryable();
             if (!string.IsNullOrEmpty(name))
             {
-                services = services.Where(j => j.ServiceName.Contains(name));
+                coupons = coupons.Where(j => j.CouponName.Contains(name));
             }
-            
-            return View(await services.ToPagedListAsync(page, pageSize));
+
+            return View(await coupons.ToPagedListAsync(page, pageSize));
         }
 
-        // GET: Admin/Services/Details/5
+        // GET: Admin/Coupons/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -44,41 +44,43 @@ namespace LaundryOnline.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var service = await _context.Services
-                .FirstOrDefaultAsync(m => m.ServiceId == id);
-            if (service == null)
+            var coupon = await _context.Coupons
+                .FirstOrDefaultAsync(m => m.CouponId == id);
+            if (coupon == null)
             {
                 return NotFound();
             }
 
-            return View(service);
+            return View(coupon);
         }
 
-        // GET: Admin/Services/Create
+        // GET: Admin/Coupons/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Services/Create
+        // POST: Admin/Coupons/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ServiceId,ServiceName,ServiceDescription")] Service service)
+        public async Task<IActionResult> Create([Bind("CouponId,CouponName,Discount,Status,CreatedAt,UpdatedAt")] Coupon coupon)
         {
+            coupon.Status = 1;
+            coupon.CreatedAt = DateTime.UtcNow.Date;
             if (ModelState.IsValid)
             {
-                _context.Add(service);
+                _context.Add(coupon);
                 await _context.SaveChangesAsync();
                 _toastNotification.AddSuccessToastMessage("Create new service successfully");
                 return RedirectToAction(nameof(Index));
             }
             _toastNotification.AddErrorToastMessage("Create new service failed");
-            return View(service);
+            return View(coupon);
         }
 
-        // GET: Admin/Services/Edit/5
+        // GET: Admin/Coupons/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -86,22 +88,22 @@ namespace LaundryOnline.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var service = await _context.Services.FindAsync(id);
-            if (service == null)
+            var coupon = await _context.Coupons.FindAsync(id);
+            if (coupon == null)
             {
                 return NotFound();
             }
-            return View(service);
+            return View(coupon);
         }
 
-        // POST: Admin/Services/Edit/5
+        // POST: Admin/Coupons/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ServiceId,ServiceName,ServiceDescription")] Service service)
+        public async Task<IActionResult> Edit(string id, [Bind("CouponId,CouponName,Discount,Status,CreatedAt,UpdatedAt")] Coupon coupon)
         {
-            if (id != service.ServiceId)
+            if (id != coupon.CouponId)
             {
                 return NotFound();
             }
@@ -110,13 +112,13 @@ namespace LaundryOnline.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(service);
+                    _context.Update(coupon);
                     await _context.SaveChangesAsync();
                     _toastNotification.AddSuccessToastMessage("Update successfully");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ServiceExists(service.ServiceId))
+                    if (!CouponExists(coupon.CouponId))
                     {
                         return NotFound();
                     }
@@ -127,31 +129,50 @@ namespace LaundryOnline.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(service);
+            return View(coupon);
         }
 
-        // GET: Admin/Services/Delete/5
+        // GET: Admin/Coupons/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            var service = await _context.Services.FindAsync(id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var coupon = await _context.Coupons
+                .FirstOrDefaultAsync(m => m.CouponId == id);
+            if (coupon == null)
+            {
+                return NotFound();
+            }
+
+            return View(coupon);
+        }
+
+        // POST: Admin/Coupons/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var coupon = await _context.Coupons.FindAsync(id);
+           
             try
             {
-                _context.Services.Remove(service);
+                _context.Coupons.Remove(coupon);
                 await _context.SaveChangesAsync();
-                _toastNotification.AddSuccessToastMessage("Delete service " + service.ServiceName + " successfully");
+                _toastNotification.AddSuccessToastMessage("Delete service " + coupon.CouponName + " successfully");
             }
             catch (Exception)
             {
-                _toastNotification.AddErrorToastMessage("Delete service " + service.ServiceName + " failed");
+                _toastNotification.AddErrorToastMessage("Delete service " + coupon.CouponName + " failed");
             }
-          
             return RedirectToAction(nameof(Index));
         }
 
-
-        private bool ServiceExists(string id)
+        private bool CouponExists(string id)
         {
-            return _context.Services.Any(e => e.ServiceId == id);
+            return _context.Coupons.Any(e => e.CouponId == id);
         }
     }
 }
