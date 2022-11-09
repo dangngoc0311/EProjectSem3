@@ -1,0 +1,49 @@
+﻿@model LaundryOnline.Models.Blog
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="page-header row">
+    <div class="header-sub-title col-md-12">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-controller="Home" asp-action="Index" class="breadcrumb-item">
+                <i class="anticon anticon-home m-r-5"></i>Home
+            </a>
+            <a class="breadcrumb-item" asp-controller="blogs" asp-action="Index">Services</a>
+            <span class="breadcrumb-item active">Detail Service</span>
+        </nav>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="container">
+            <h2 class="font-weight-normal m-b-10 text-uppercase">@Html.DisplayFor(model => model.Title)</h2>
+            <div class="d-flex m-b-30">
+
+                <div class="m-l-15">
+                    <a href="javascript:void(0);" class="text-dark m-b-0 font-weight-semibold">
+                        @Html.DisplayFor(model => model.User.FullName)
+                    </a>
+                    <p class="m-b-0 text-muted font-size-13">@Model.CreatedAt.ToShortDateString()</p>
+                </div>
+            </div>
+            <img alt="" class="img-fluid w-100" src="~/images/blogs/@Html.DisplayFor(model => model.Image)">
+            <div class="m-t-30">
+                @Html.Raw(@Model.Content)
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.BlogId" class="btn btn-warning">Edit</a>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+</div>
+
+
+
