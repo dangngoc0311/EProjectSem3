@@ -5,13 +5,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LaundryOnline.Models;
+using NToastNotify;
+using Microsoft.EntityFrameworkCore;
 
 namespace LaundryOnline.Controllers
 {
     public class HomeController : Controller
     {
+
+        private readonly LaundryOnlineContext _context;
+        private readonly IToastNotification _toastNotification;
+
+        public HomeController(LaundryOnlineContext context, IToastNotification toastrNotification)
+        {
+            _context = context;
+            _toastNotification = toastrNotification;
+        }
+
         public IActionResult Index()
         {
+            ViewBag.Banner = _context.Banners.Where(b => b.Status == 1);
+            ViewBag.Service = _context.Services;
+            ViewBag.Blogs = _context.Blogs.Where(b => b.Status == 1).Include(b => b.User); 
             return View();
         }
 
