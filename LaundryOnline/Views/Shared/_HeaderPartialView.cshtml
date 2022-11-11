@@ -1,4 +1,6 @@
-﻿    <!-- preloader -->
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<!-- preloader -->
 <div id="preloader">
     <div class="preloader">
         <span></span>
@@ -58,7 +60,14 @@
                             </div>
                             <div class="tp-header-top-info-single">
                                 <div class="tp-header-top-info-single-btn">
-                                    <a href="contact.html" class="yellow-btn"><i class="flaticon-enter"></i> Free Quote</a>
+                                    @if (HttpContextAccessor.HttpContext.Session.GetString("CustomerLogin") != null)
+                                    {
+                                        <a asp-controller="Accounts" asp-action="Logout" class="yellow-btn"><i class="flaticon-enter"></i> Logout</a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Accounts" asp-action="Login" class="yellow-btn"><i class="flaticon-enter"></i> Login</a>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -93,6 +102,27 @@
                                             <a asp-area="Home" asp-controller="Blogs" asp-action="Index">Blogs</a>
                                         </li>
                                         <li><a href="contact.html">Contact</a></li>
+                                        @if (HttpContextAccessor.HttpContext.Session.GetString("CustomerLogin") != null)
+                                        {
+                                            <li class="menu-item-has-children">
+                                                <a href="#">@HttpContextAccessor.HttpContext.Session.GetString("CustomerLogin")</a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="about.html">My Account</a></li>
+                                                    <li><a href="appointment.html">My Order</a></li>
+                                                    <li><a asp-controller="Accounts" asp-action="Logout">Logout</a></li>
+                                                </ul>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="menu-item-has-children">
+                                                <a asp-controller="Accounts" asp-action="Login">Login</a>
+                                                <ul class="sub-menu">
+                                                    <li><a asp-controller="Accounts" asp-action="Login"> Login</a></li>
+                                                    <li><a asp-controller="Accounts" asp-action="Register">Register</a></li>
+                                                </ul>
+                                            </li>
+                                        }
                                     </ul>
                                 </nav>
                             </div>
@@ -104,7 +134,18 @@
                     </div>
                     <div class="col-xl-2 tp-sticky-column-btn">
                         <div class="tp-sticky-btn text-end">
-                            <a href="contact.html" class="theme-btn justify-content-end"><i class="flaticon-enter"></i> Free Quote</a>
+                            @if (HttpContextAccessor.HttpContext.Session.GetString("CustomerLogin") != null)
+                            {
+                                <a asp-controller="Accounts" asp-action="Logout" class="theme-btn justify-content-end">
+                                    <i class="flaticon-enter"></i> Logout
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Accounts" asp-action="Login" class="theme-btn justify-content-end">
+                                    <i class="flaticon-enter"></i> Login
+                                </a>
+                            }
                         </div>
                     </div>
                 </div>

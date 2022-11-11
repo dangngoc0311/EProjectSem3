@@ -24,6 +24,9 @@
     <link rel="stylesheet" href="~/assets/css/swiper-bundle.css">
     <link rel="stylesheet" href="~/assets/css/default.css">
     <link rel="stylesheet" href="~/assets/css/main.css">
+
+    @RenderSection("Css", required: false)
+
 </head>
 <body>
 
@@ -46,6 +49,8 @@
     <script src="~/assets/js/ajax-form.js"></script>
     <script src="~/assets/js/wow.min.js"></script>
     <script src="~/assets/js/main.js"></script>
+    @await Component.InvokeAsync("NToastNotify")
+    @RenderSection("Scripts", required: false)
 
 </body>
 
