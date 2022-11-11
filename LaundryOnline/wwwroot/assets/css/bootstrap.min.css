@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 
 /*!
  * Bootstrap v5.0.0-beta2 (https://getbootstrap.com/)
@@ -606,7 +606,7 @@ progress {
 
 .img-fluid {
     max-width: 100%;
-    height: auto
+   
 }
 
 .img-thumbnail {
