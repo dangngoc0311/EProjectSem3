@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LaundryOnline.Models;
-using System.IO;
-using X.PagedList;
 using NToastNotify;
+using X.PagedList;
+using System.IO;
 
-namespace LaundryOnline.Controllers
+namespace LaundryOnline.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class BlogsController : Controller
@@ -29,7 +29,7 @@ namespace LaundryOnline.Controllers
         {
             page = page ?? 1;
             int pageSize = 3;
-            var blogs = _context.Blogs.AsQueryable();
+            var blogs = _context.Blogs.Include(b=>b.User).AsQueryable();
             if (!string.IsNullOrEmpty(name))
             {
                 blogs = blogs.Where(j => j.Title.Contains(name));
@@ -182,11 +182,11 @@ namespace LaundryOnline.Controllers
             {
                 _context.Blogs.Remove(blog);
                 await _context.SaveChangesAsync();
-                _toastNotification.AddSuccessToastMessage("Delete service " + blog.Title + " successfully");
+                _toastNotification.AddSuccessToastMessage("Delete Blogs " + blog.Title + " successfully");
             }
             catch (Exception)
             {
-                _toastNotification.AddErrorToastMessage("Delete service " + blog.Title + " failed");
+                _toastNotification.AddErrorToastMessage("Delete Blogs " + blog.Title + " failed");
             }
 
             return RedirectToAction(nameof(Index));
