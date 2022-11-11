@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using LaundryOnline.Models;
 using NToastNotify;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+
 namespace LaundryOnline
 {
     public class Startup
@@ -25,18 +27,29 @@ namespace LaundryOnline
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<LaundryOnlineContext>(options =>
+                   options.UseSqlServer(Configuration.GetConnectionString("LaundryOnlineContext")));
+            services.AddDistributedMemoryCache();
+            services.AddAuthentication("BkapSecuritySchema").AddCookie("BkapSecuritySchema", ops =>
+            {
+                ops.Cookie = new Microsoft.AspNetCore.Http.CookieBuilder
+                {
+                    HttpOnly = true,
+                    Name = "Bkap.Security.Cookie",
+                    Path = "/",
+                    SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax,
+                    SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.SameAsRequest
+                };
+                ops.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Admin/Login/Index");
+                ops.ReturnUrlParameter = "RequestPath";
+                ops.SlidingExpiration = true;
+            });
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            services.AddDbContext<LaundryOnlineContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("LaundryOnlineContext")));
 
             services.AddMvc().AddNToastNotifyNoty(new NotyOptions
             {
@@ -45,6 +58,23 @@ namespace LaundryOnline
                 Theme = "metroui",
                 Layout = "topRight",
             });
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
+            });
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = new TimeSpan(0, 30, 0);
+                options.Cookie.Name = "Bkap.Session";
+                options.Cookie.HttpOnly = true;
+            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,10 +88,12 @@ namespace LaundryOnline
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseNToastNotify();
+            app.UseSession();
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -71,7 +103,7 @@ namespace LaundryOnline
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-                
+
             });
         }
     }
