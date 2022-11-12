@@ -89,10 +89,10 @@
                                 <nav id="tp-mobile-menu">
                                     <ul class="text-center">
                                         <li class="">
-                                            <a href="index.html" class="active">Home</a>
+                                            <a href="index.html">Home</a>
                                         </li>
                                         <li class="">
-                                            <a href="#">About</a>
+                                            <a asp-controller="About" asp-action="Index">About</a>
                                         </li>
                                         <li class="menu-item-has-children">
                                             <a href="service.html">Services</a>
@@ -101,6 +101,7 @@
                                         <li class="">
                                             <a asp-area="Home" asp-controller="Blogs" asp-action="Index">Blogs</a>
                                         </li>
+                                        <li><a asp-controller="Contact" asp-action="Index">Contact</a></li>
                                         <li><a href="contact.html">Contact</a></li>
                                         @if (HttpContextAccessor.HttpContext.Session.GetString("CustomerLogin") != null)
                                         {

@@ -17,7 +17,7 @@
 <div class="card">
     <div class="card-body">
         <h4>
-            Add New Service
+            Add New Coupon
         </h4>
         <div class="m-t-25">
             <div class="row">
@@ -33,6 +33,11 @@
                             <label asp-for="Discount" class="control-label"></label>
                             <input asp-for="Discount" class="form-control" />
                             <span asp-validation-for="Discount" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ExpirationDate" class="control-label"></label>
+                            <input asp-for="ExpirationDate" type="date" class="form-control" />
+                            <span asp-validation-for="ExpirationDate" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Create" class="btn btn-success" />
