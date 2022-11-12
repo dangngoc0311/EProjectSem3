@@ -20,6 +20,7 @@ namespace LaundryOnline.Models
 
         [DisplayName("Discount")]
         [Range(1, Int32.MaxValue)]
+        [Required]
         public double Discount { get; set; }
 
         [DisplayName("Status")]
@@ -29,8 +30,9 @@ namespace LaundryOnline.Models
         [DisplayName("Created At")]
         public DateTime CreatedAt { get; set; }
 
-        [DisplayName("Updated At")]
-        public DateTime? UpdatedAt { get; set; }
+        [DisplayName("Expiration At")]
+        [Required]
+        public DateTime ExpirationDate { get; set; }
 
         public ICollection<UsedCoupon> UsedCoupons { get; set; }
 

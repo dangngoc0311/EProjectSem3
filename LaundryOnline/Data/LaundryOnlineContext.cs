@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using LaundryOnline.Models;
 
 namespace LaundryOnline.Models
 {
@@ -23,6 +24,7 @@ namespace LaundryOnline.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<UsedCoupon> UsedCoupons { get; set; }
+        public DbSet<LaundryOnline.Models.Config> Config { get; set; }
 
     }
 }

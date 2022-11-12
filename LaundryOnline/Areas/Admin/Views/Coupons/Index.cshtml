@@ -86,6 +86,7 @@
                         <td>
                             @item.CreatedAt.ToShortDateString()
                         </td>
+                        <td>@item.ExpirationDate.ToShortDateString()</td>
                         <td class="d-flex">
                             <a asp-action="Edit" asp-area="Admin" asp-route-id="@item.CouponId">
                                 <i class="anticon anticon-form btn btn-icon btn-warning mr-2"></i>

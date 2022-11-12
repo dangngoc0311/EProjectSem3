@@ -65,7 +65,7 @@ namespace LaundryOnline.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CouponId,CouponName,Discount,Status,CreatedAt,UpdatedAt")] Coupon coupon)
+        public async Task<IActionResult> Create([Bind("CouponId,CouponName,Discount,Status,CreatedAt,ExpirationDate")] Coupon coupon)
         {
             coupon.Status = 1;
             coupon.CreatedAt = DateTime.UtcNow.Date;
@@ -101,7 +101,7 @@ namespace LaundryOnline.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("CouponId,CouponName,Discount,Status,CreatedAt,UpdatedAt")] Coupon coupon)
+        public async Task<IActionResult> Edit(string id, [Bind("CouponId,CouponName,Discount,Status,CreatedAt,ExpirationDate")] Coupon coupon)
         {
             if (id != coupon.CouponId)
             {
