@@ -162,11 +162,12 @@ ul {
 }
 
 p {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 27px;
-  color: #064e2a;
-  margin-bottom: 10px;
+    word-break: break-all !important;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 27px;
+    color: #064e2a;
+    margin-bottom: 10px;
 }
 
 i {
@@ -5953,7 +5954,7 @@ select {
 .tp-progress-shape {
   position: absolute;
   top: 0px;
-  left: 0px;
+  left: -45px;
   max-width: 835px;
 }
 @media only screen and (min-width: 1600px) and (max-width: 1750px) {

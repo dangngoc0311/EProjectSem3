@@ -40,7 +40,7 @@
                         <img width="341" height="213" src="~/images/blogs/@Html.DisplayFor(modelItem => item.Image)" alt=" @Html.DisplayFor(modelItem => item.Title)" />
                         <div class="card-body">
                             <h4 class="m-t-10">@Html.DisplayFor(modelItem => item.Title)</h4>
-                            <p class="m-b-20">@Html.Raw(@item.Content.Substring(0, 200))</p>
+                            <p class="m-b-20">@Html.Raw(@item.Content.Substring(0, 100))</p>
                             <div class="d-flex">
                                 <a asp-action="Edit" asp-area="Admin" asp-route-id="@item.BlogId">
                                     <i class="anticon anticon-form btn btn-icon btn-warning mr-2"></i>
@@ -77,7 +77,7 @@
                         <div class="card-footer">
                             <div class="d-flex align-items-center m-t-5">
                                 <div class="avatar avatar-image avatar-sm">
-                                    <img src="assets/images/avatars/thumb-2.jpg" alt="">
+                                    <i class="anticon anticon-user"></i>
                                 </div>
                                 <div class="m-l-10">
                                     <span class="font-weight-semibold">@Html.DisplayFor(modelItem => item.User.UserName)</span>

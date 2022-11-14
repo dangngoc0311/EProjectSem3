@@ -3,10 +3,10 @@
 
 <div class="tp-footer-info">
     <div class="tp-footer-info-logo mb-35">
-        <a href="index.html"><img src="~/images/config/@Model.Image" class="img-fluid" alt="img not found"></a>
+        <a asp-controller="Home" asp-action="Index"><img src="~/images/config/@Model.Image" class="img-fluid" alt="img not found"></a>
     </div>
     <h4 class="mb-15"><a href="tel:@Model.ContactNumber">@Model.ContactNumber</a></h4>
-    <h6 class="mb-15"><i class="fal fa-envelope-open"></i><a href=""><span class="__cf_email__">[@Model.EmailAddress]</span></a></h6>
+    <h6 class="mb-15"><i class="fal fa-envelope-open"></i><a href=""><span class="__cf_email__">@Model.EmailAddress</span></a></h6>
     <h6 class="mb-20"><i class="fal fa-map-marker-alt"></i> @Model.Address</h6>
     <div class="tp-footer-info-social">
         <a href="#"><i class="fab fa-facebook-f"></i></a>

@@ -116,16 +116,20 @@
                                                     <button class="button">Apply Coupon</button>
                                                 </div>
                                                 <div class="coupon2">
-                                                    <input class="button" name="update_cart" value="Update cart" type="submit">
+                                                    <input asp-controller="Cart" asp-action="Clear" class="button" value="Clear cart" type="submit">
                                                 </div>
                                             </form>
                                         }
                                         else
                                         {
                                             <h6>
+
                                                 Please login to get more discount code
                                                 <a asp-controller="Accounts" asp-action="Login" class="text-danger">Login</a>
                                             </h6>
+                                            <div class="coupon2 cart-page-total" style="margin-top:-100px">
+                                                <a asp-controller="Cart" asp-action="Clear" class="btn">Clear Cart</a>
+                                            </div>
                                         }
 
                                     </div>

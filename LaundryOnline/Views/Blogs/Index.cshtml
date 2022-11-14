@@ -43,7 +43,7 @@
                             {
                                 <div class="ablog ablog-4 mb-55 wow fadeInUp" data-wow-delay=".5s">
                                     <div class="ablog__img ablog__img4">
-                                        <img src="~/images/blogs/@Html.DisplayFor(modelItem => item.Image)" alt=" @Html.DisplayFor(modelItem => item.Title)" />
+                                        <img width="720" height="421" src="~/images/blogs/@Html.DisplayFor(modelItem => item.Image)" alt=" @Html.DisplayFor(modelItem => item.Title)" />
 
                                     </div>
                                     <div class="ablog__text ablog__text4">
@@ -54,7 +54,7 @@
                                             </ul>
                                         </div>
                                         <h3 class="ablog__text--title4 mb-20"><a asp-action="Details" asp-route-id="@item.BlogId">@Html.DisplayFor(modelItem => item.Title)</a></h3>
-                                        <p class="mb-30">@Html.Raw(@item.Content.Substring(0, 200))</p>
+                                        <p class="mb-30" >@Html.Raw(@item.Content.Substring(0, 100))...</p>
                                         <div class="ablog__btn4">
                                             <a asp-action="Details" asp-route-id="@item.BlogId" class="theme-btn"><i class="flaticon-enter"></i> Read More</a>
                                         </div>
@@ -83,10 +83,10 @@
                                     <div class="sidebar--widget__post mb-20">
                                         <div class="sidebar__post--thumb">
                                             <a asp-action="Details" asp-area="Home" asp-route-id="@item.BlogId">
-                                                <img class="post__img" src="~/images/blogs/@item.Image" alt=" @item.Title"></img>
+                                                <img style="margin-right: 15px" class="post__img" src="~/images/blogs/@item.Image" alt=" @item.Title"></img>
                                             </a>
                                         </div>
-                                        <div class="sidebar__post--text">
+                                        <div style="margin-left: 15px" class="sidebar__post--text">
                                             <h4 class="sidebar__post--title"> <a asp-action="Details" asp-area="Home" asp-route-id="@item.BlogId">@item.Title</a></h4>
                                             <span>@item.CreatedAt.ToShortDateString()</span>
                                         </div>

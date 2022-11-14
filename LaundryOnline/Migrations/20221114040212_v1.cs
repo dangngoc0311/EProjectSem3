@@ -93,7 +93,8 @@ namespace LaundryOnline.Migrations
                     Address = table.Column<string>(maxLength: 150, nullable: false),
                     UserName = table.Column<string>(maxLength: 50, nullable: false),
                     Password = table.Column<string>(nullable: false),
-                    Status = table.Column<byte>(nullable: false)
+                    Status = table.Column<byte>(nullable: false),
+                    Role = table.Column<byte>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -159,7 +160,7 @@ namespace LaundryOnline.Migrations
                     CreatedAt = table.Column<DateTime>(nullable: true),
                     UpdatedAt = table.Column<DateTime>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
-                    PaymentId = table.Column<string>(nullable: true),
+                    PaymentId = table.Column<string>(nullable: false),
                     CouponId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -176,7 +177,7 @@ namespace LaundryOnline.Migrations
                         column: x => x.PaymentId,
                         principalTable: "Payments",
                         principalColumn: "PaymentId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Orders_Users_UserId",
                         column: x => x.UserId,
