@@ -68,6 +68,34 @@ namespace LaundryOnline.Migrations
                     b.ToTable("Blogs");
                 });
 
+            modelBuilder.Entity("LaundryOnline.Models.Config", b =>
+                {
+                    b.Property<string>("ConfigId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(150);
+
+                    b.Property<string>("ContactNumber")
+                        .IsRequired();
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("ntext");
+
+                    b.Property<string>("EmailAddress")
+                        .IsRequired();
+
+                    b.Property<string>("Image");
+
+                    b.Property<byte>("Status");
+
+                    b.HasKey("ConfigId");
+
+                    b.ToTable("Config");
+                });
+
             modelBuilder.Entity("LaundryOnline.Models.Coupon", b =>
                 {
                     b.Property<string>("CouponId")
@@ -102,8 +130,7 @@ namespace LaundryOnline.Migrations
                     b.Property<string>("ContactNumber")
                         .IsRequired();
 
-                    b.Property<string>("CouponId")
-                        .IsRequired();
+                    b.Property<string>("CouponId");
 
                     b.Property<DateTime?>("CreatedAt");
 
@@ -126,8 +153,7 @@ namespace LaundryOnline.Migrations
 
                     b.Property<DateTime?>("UpdatedAt");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<string>("UserId");
 
                     b.HasKey("OrderId");
 
@@ -278,8 +304,7 @@ namespace LaundryOnline.Migrations
                 {
                     b.HasOne("LaundryOnline.Models.Coupon", "Coupon")
                         .WithMany("Orders")
-                        .HasForeignKey("CouponId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CouponId");
 
                     b.HasOne("LaundryOnline.Models.Payment", "Payment")
                         .WithMany("Orders")
@@ -287,8 +312,7 @@ namespace LaundryOnline.Migrations
 
                     b.HasOne("LaundryOnline.Models.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("LaundryOnline.Models.OrderItem", b =>

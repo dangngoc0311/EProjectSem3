@@ -4,47 +4,20 @@
             <div class="row">
                 <div class="col-lg-3 col-sm-6">
                     <div class="tp-footer-widget footer-col-1 mb-30 wow fadeInUp" data-wow-delay=".2s">
-                        <div class="tp-footer-info">
-                            <div class="tp-footer-info-logo mb-35">
-                                <a href="index.html"><img src="~/assets/img/logo/logo-white.png" class="img-fluid" alt="img not found"></a>
-                            </div>
-                            <h4 class="mb-15"><a href="tel:02(850)2560-3">02 (850) 2560 - 3</a></h4>
-                            <h6 class="mb-15"><i class="fal fa-envelope-open"></i><a href="https://themepure.net/cdn-cgi/l/email-protection#a0c9cec6cfe0c2c1d3c9c3d4c8c5cdc58ec3cfcd"><span class="__cf_email__" data-cfemail="0e676068614e6c6f7d676d7a666b636b206d6163">[email&#160;protected]</span></a></h6>
-                            <h6 class="mb-20"><i class="fal fa-map-marker-alt"></i> 25/B Globe House Ave. Point Beach, New York</h6>
-                            <div class="tp-footer-info-social">
-                                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="#"><i class="fab fa-instagram"></i></a>
-                                <a href="#"><i class="fab fa-google"></i></a>
-                            </div>
-                        </div>
+                        @await Component.InvokeAsync("Footer")
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div class="tp-footer-widget footer-col-2 mb-30 wow fadeInUp" data-wow-delay=".4s">
                         <h4 class="tp-footer-widget-title mb-35">Our Services</h4>
-                        <ul>
-                            <li><a href="#">Carpet Cleaning</a></li>
-                            <li><a href="#">Plumbing Serivices</a></li>
-                            <li><a href="#">Park Cleaning</a></li>
-                            <li><a href="#">Residential Services</a></li>
-                            <li><a href="#">Toilet Cleaning</a></li>
-                        </ul>
+                        @await Component.InvokeAsync("Services")
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div class="tp-footer-widget footer-col-3 mb-30 wow fadeInUp" data-wow-delay=".6s">
                         <h4 class="tp-footer-widget-title mb-35">Recent News</h4>
-                        <div class="tp-footer-news">
-                            <div class="tp-footer-news-single mb-15">
-                                <h6><a href="blog-details.html">Orci magna pede, quisque sociis integer litora netus</a></h6>
-                                <span>Jun 02, 2021</span>
-                            </div>
-                            <div class="tp-footer-news-single">
-                                <h6><a href="blog-details.html">Congue morbi elit dictumst socio sit mauris congue sed.</a></h6>
-                                <span>Jun 02, 2021</span>
-                            </div>
-                        </div>
+                        @await Component.InvokeAsync("Blogs")
+                        
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">

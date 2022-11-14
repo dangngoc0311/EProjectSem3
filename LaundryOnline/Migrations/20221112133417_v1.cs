@@ -25,6 +25,23 @@ namespace LaundryOnline.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Config",
+                columns: table => new
+                {
+                    ConfigId = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(type: "ntext", nullable: false),
+                    EmailAddress = table.Column<string>(nullable: false),
+                    ContactNumber = table.Column<string>(nullable: false),
+                    Address = table.Column<string>(maxLength: 150, nullable: false),
+                    Status = table.Column<byte>(nullable: false),
+                    Image = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Config", x => x.ConfigId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Coupons",
                 columns: table => new
                 {
@@ -32,8 +49,8 @@ namespace LaundryOnline.Migrations
                     CouponName = table.Column<string>(maxLength: 150, nullable: false),
                     Discount = table.Column<double>(nullable: false),
                     Status = table.Column<byte>(nullable: false),
-                    CreatedAt = table.Column<DateTime>(nullable: true),
-                    UpdatedAt = table.Column<DateTime>(nullable: true)
+                    CreatedAt = table.Column<DateTime>(nullable: false),
+                    ExpirationDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -141,9 +158,9 @@ namespace LaundryOnline.Migrations
                     OrderStatus = table.Column<byte>(nullable: false),
                     CreatedAt = table.Column<DateTime>(nullable: true),
                     UpdatedAt = table.Column<DateTime>(nullable: true),
-                    UserId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
                     PaymentId = table.Column<string>(nullable: true),
-                    CouponId = table.Column<string>(nullable: false)
+                    CouponId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -153,7 +170,7 @@ namespace LaundryOnline.Migrations
                         column: x => x.CouponId,
                         principalTable: "Coupons",
                         principalColumn: "CouponId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Orders_Payments_PaymentId",
                         column: x => x.PaymentId,
@@ -165,7 +182,7 @@ namespace LaundryOnline.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -275,6 +292,9 @@ namespace LaundryOnline.Migrations
 
             migrationBuilder.DropTable(
                 name: "Blogs");
+
+            migrationBuilder.DropTable(
+                name: "Config");
 
             migrationBuilder.DropTable(
                 name: "OrderItems");

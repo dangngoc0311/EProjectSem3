@@ -1,7 +1,7 @@
 ﻿<div class="side-nav">
     <div class="side-nav-inner">
         <ul class="side-nav-menu scrollable">
-            <li class="nav-item dropdown open">
+            <li class="nav-item dropdown ">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
                         <i class="anticon anticon-dashboard"></i>
@@ -12,13 +12,13 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li class="active">
+                    <li class="">
                         <a asp-area="Admin" asp-controller="Services" asp-action="Create">Add Service</a>
                     </li>
                     <li>
                         <a asp-area="Admin" asp-controller="Services" asp-action="Index">List Service</a>
                     </li>
-                   
+
                 </ul>
             </li>
             <li class="nav-item dropdown">
@@ -96,7 +96,7 @@
                     <li>
                         <a asp-area="Admin" asp-controller="Coupons" asp-action="Index">List Coupons</a>
                     </li>
-                   
+
                 </ul>
             </li>
             <li class="nav-item dropdown">
@@ -106,34 +106,42 @@
                     </span>
                     <span class="title">User</span>
                     <span class="arrow">
-                       
+
                     </span>
                 </a>
-                
+
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item ">
                 <a class="dropdown-toggle" href="javascript:void(0);">
                     <span class="icon-holder">
                         <i class="anticon anticon-pie-chart"></i>
                     </span>
                     <span class="title">Order</span>
                     <span class="arrow">
-                        @*<i class="arrow-icon"></i>*@
                     </span>
                 </a>
-                
+
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item ">
                 <a class="dropdown-toggle" asp-area="Admin" asp-controller="Payments" asp-action="Index">
                     <span class="icon-holder">
                         <i class="anticon anticon-file"></i>
                     </span>
                     <span class="title">Payment</span>
                     <span class="arrow">
-                        @*<i class="arrow-icon"></i>*@
                     </span>
                 </a>
-                
+            </li>
+            <li class="nav-item ">
+                <a class="dropdown-toggle" asp-area="Admin" asp-controller="Configs" asp-action="Index">
+                    <span class="icon-holder">
+                        <i class="anticon anticon-lock"></i>
+                    </span>
+                    <span class="title">Config</span>
+                    <span class="arrow">
+                    </span>
+                </a>
+
             </li>
         </ul>
     </div>

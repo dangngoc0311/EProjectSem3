@@ -8,16 +8,12 @@ using System.Threading.Tasks;
 
 namespace LaundryOnline.Models
 {
-    public class Config
+    public class ContactModel
     {
-        [Key]
-        [DisplayName("Config Id")]
-        public string ConfigId { get; set; }
-
-        [DisplayName("Description")]
-        [Column(TypeName = "ntext")]
+        [DisplayName("Full Name")]
         [Required]
-        public string Description { get; set; }
+        [StringLength(80)]
+        public string FullName { get; set; }
 
         [DisplayName("Email")]
         [Required]
@@ -29,16 +25,13 @@ namespace LaundryOnline.Models
         [Phone]
         public string ContactNumber { get; set; }
 
-        [DisplayName("Address")]
         [Required]
-        [StringLength(150)]
-        public string Address { get; set; }
+        [DisplayName("Message")]
+        [Column(TypeName = "ntext")]
+        public string Message { get; set; }
 
-        [DisplayName("Status")]
-        [DefaultValue(1)]
-        public byte Status { get; set; }
-
-        [DisplayName("Image")]
-        public string Image { get; set; }
+        [Required]
+        [DisplayName("Subject")]
+        public string Subject { get; set; }
     }
 }

@@ -1,0 +1,185 @@
+﻿@model LaundryOnline.Models.Order
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var @total = 0;
+}
+
+<main class="">
+    <div class="tp-page-title-area pt-180 pb-185 position-relative fix" data-background="/assets/img/slider/breadcrumb-bg-1.jpg">
+        <div class="tp-custom-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="tp-page-title z-index">
+                        <h2 class="breadcrumb-title">Your <span>Cart</span></h2>
+                        <div class="breadcrumb-menu">
+                            <nav class="breadcrumb-trail breadcrumbs">
+                                <ul class="trail-items">
+                                    <li class="trail-item trail-begin">
+                                        <a href="index.html">Home</a>
+                                    </li>
+                                    <li class="trail-item trail-end"><span>Cart</span></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="tp-service-area-three pt-120 pb-90">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mb-4">
+                    <form asp-action="Create" class="custom-mar-20">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="Price" class="" value="11" type="hidden" />
+                        <div class="row custom-mar-20 ">
+                            @if (ViewBag.Users != null)
+                            {
+                                <input asp-for="UserId" class="form-control custom-pad-20" value="@ViewBag.Users.UserId" type="hidden" />
+
+                                <div class="col-md-6 custom-pad-20">
+                                    <div class="tp-contact-form-field mb-20 ">
+                                        <label asp-for="FullName" class="control-label"></label>
+                                        <input asp-for="FullName" class="form-control custom-pad-20" value="@ViewBag.Users.FullName" />
+                                        <span asp-validation-for="FullName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 custom-pad-20">
+                                    <div class="tp-contact-form-field mb-20">
+                                        <label asp-for="ContactNumber" class="control-label"></label>
+                                        <input asp-for="ContactNumber" class="form-control" value="@ViewBag.Users.ContactNumber" />
+                                        <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="tp-contact-form-field mb-20 custom-pad-20">
+                                    <label asp-for="EmailAddress" class="control-label"></label>
+                                    <input asp-for="EmailAddress" class="form-control" value="@ViewBag.Users.EmailAddress" />
+                                    <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                                </div>
+                                <div class="tp-contact-form-field mb-20 custom-pad-20">
+                                    <label asp-for="Address" class="control-label"></label>
+                                    <input asp-for="Address" class="form-control" value="@ViewBag.Users.Address" />
+                                    <span asp-validation-for="Address" class="text-danger"></span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-6 custom-pad-20">
+                                    <div class="tp-contact-form-field mb-20 ">
+                                        <label asp-for="FullName" class="control-label"></label>
+                                        <input asp-for="FullName" class="form-control custom-pad-20" />
+                                        <span asp-validation-for="FullName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 custom-pad-20">
+                                    <div class="tp-contact-form-field mb-20">
+                                        <label asp-for="ContactNumber" class="control-label"></label>
+                                        <input asp-for="ContactNumber" class="form-control" />
+                                        <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="tp-contact-form-field mb-20 custom-pad-20">
+                                    <label asp-for="EmailAddress" class="control-label"></label>
+                                    <input asp-for="EmailAddress" class="form-control" />
+                                    <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                                </div>
+                                <div class="tp-contact-form-field mb-20 custom-pad-20">
+                                    <label asp-for="Address" class="control-label"></label>
+                                    <input asp-for="Address" class="form-control" />
+                                    <span asp-validation-for="Address" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (HttpContextAccessor.HttpContext.Session.GetString("Coupon") != null)
+                            {
+                                <input asp-for="CouponId" value="@ViewBag.Coupon.CouponId" type="hidden" />
+                            }
+                            <div class="tp-contact-form-field mb-20 custom-pad-20">
+                                <label asp-for="Note" class="control-label"></label>
+                                <textarea asp-for="Note" class="form-control"></textarea>
+                                <span asp-validation-for="Note" class="text-danger"></span>
+                            </div>
+
+                            <h5>I'll pay with&hellip;</h5>
+                            <div class="list-group mb-20 custom-pad-20">
+                                @foreach (var item in ViewBag.Payment)
+                                {
+                                    <div class="list-group-item border-0">
+                                        <div class="list-group-item-heading">
+                                            <div class="mb-20 custom-pad-20">
+                                                <label class="font-weight-bold text-capitalize">
+                                                    <input type="radio" asp-for="PaymentId" value="@item.PaymentId" checked>
+                                                    @item.PaymentName
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="col-md-12 custom-pad-20">
+                                <div class="tp-contact-form-field">
+                                    <button type="submit" class="theme-btn"><i class="flaticon-enter"></i> Checkout</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted">Your cart</span>
+                    </h4>
+                    <ul class="list-group mb-3 z-depth-1">
+                        @foreach (var item in ViewBag.Carts)
+                        {
+                            <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                <div>
+                                    <h6 class="my-0">@item.UnitName</h6>
+                                </div>
+                                <span class="text-muted">@string.Format("{0:C}", item.UnitPrice)</span>
+                            </li>
+                            total += item.UnitPrice * item.Quantity;
+
+                        }
+                        @if (HttpContextAccessor.HttpContext.Session.GetString("Coupon") != null)
+                        {
+                            <li class="list-group-item d-flex justify-content-between bg-light">
+
+                                <div class="text-success">
+                                    <h6 class="my-0">Promo code</h6>
+                                    <small>@ViewBag.Coupon.CouponName</small>
+                                </div>
+                                <span class="text-success"> - $ @ViewBag.Coupon.Discount</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Total (USD)</span>
+                                <strong>@string.Format("{0:C}", (total - ViewBag.Coupon.Discount))</strong>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="list-group-item d-flex justify-content-between bg-light">
+
+                                <div class="text-success">
+                                    <h6 class="my-0">Promo code</h6>
+                                    <small></small>
+                                </div>
+                                <span class="text-success"> </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Total (USD)</span>
+                                <strong>@string.Format("{0:C}", total)</strong>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
