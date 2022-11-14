@@ -108,6 +108,7 @@ namespace LaundryOnline.Controllers
                     if (checkAccount.Password == CreateMD5(model.Password))
                     {
                         HttpContext.Session.SetString("CustomerLogin", checkAccount.UserName);
+                        HttpContext.Session.SetString("CustomerId", checkAccount.UserId);
                         _toastNotification.AddSuccessToastMessage("Login successfully");
                         return RedirectToAction("Index", "Home");
                     }
@@ -209,6 +210,8 @@ namespace LaundryOnline.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("CustomerLogin");
+            HttpContext.Session.Remove("CustomerId");
+
             return RedirectToAction("Login", "Accounts");
         }
 

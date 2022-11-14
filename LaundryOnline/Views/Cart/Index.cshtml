@@ -1,0 +1,377 @@
+﻿@model IEnumerable<LaundryOnline.Models.Cart>
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<main>
+    <!-- breadcrumb area start -->
+    <div class="tp-page-title-area pt-180 pb-185 position-relative fix" data-background="/assets/img/slider/breadcrumb-bg-1.jpg">
+        <div class="tp-custom-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="tp-page-title z-index">
+                        <h2 class="breadcrumb-title">Your <span>Cart</span></h2>
+                        <div class="breadcrumb-menu">
+                            <nav class="breadcrumb-trail breadcrumbs">
+                                <ul class="trail-items">
+                                    <li class="trail-item trail-begin">
+                                        <a href="index.html">Home</a>
+                                    </li>
+                                    <li class="trail-item trail-end"><span>Cart</span></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="tp-service-area-three pt-120 pb-90">
+        <div class="container">
+            <div class="cart-area section-space-y-axis-100">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-content table-responsive">
+                                <table class="table text-center">
+                                    <thead>
+                                        <tr>
+                                            <th class="cart-product-name">@Html.DisplayNameFor(model => model.UnitName)</th>
+                                            <th class="product-price">@Html.DisplayNameFor(model => model.UnitPrice)</th>
+                                            <th class="product-quantity">@Html.DisplayNameFor(model => model.Quantity)</th>
+                                            <th class="product_remove">Total</th>
+                                            <th class="product_remove"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="test">
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td class="product-name"><a href="javascript:void(0)">@item.UnitName</a></td>
+                                                <td class="product-price"><span class="amount">@string.Format("{0:C}", item.UnitPrice)</span></td>
+                                                <td class="quantity">
+                                                    <a asp-controller="Cart" asp-action="DecreaseQtyCart" asp-route-id="@item.UnitId" class="btn">
+                                                        <i class="fal fa-minus"></i>
+                                                    </a>
+                                                    <span style="margin: auto 7px;font-weight: 500;font-size: 19px;">
+                                                        @item.Quantity
+                                                    </span>
+                                                    <a asp-controller="Cart" asp-action="IncreaseQtyCart" asp-route-id="@item.UnitId" class="btn">
+                                                        <i class="fal fa-plus"></i>
+                                                    </a>
+
+                                                </td>
+                                                <td class="product-subtotal"><span class="amount">@string.Format("{0:C}", item.UnitPrice * item.Quantity)</span></td>
+                                                <td class="product_remove">
+                                                    <a asp-controller="Cart" asp-action="RemoveItemCart" asp-route-id="@item.UnitId" class="btn">
+                                                        <i class="far fa-trash text-danger"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            @*<tr>
+                                                    <td class="product-name"><a href="javascript:void(0)">@item.UnitName</a></td>
+                                                    <td class="product-price"><span class="amount">@string.Format("{0:C}", item.UnitPrice)</span></td>
+                                                    <td class="quantity">
+                                                        <a onclick="increase(@item.UnitId,@count)" class="btn">
+                                                            <i class="fal fa-minus"></i>
+                                                        </a>
+                                                        <span style="margin: auto 7px;font-weight: 500;font-size: 19px;" class="inc_count">
+                                                            @item.Quantity
+                                                        </span>
+                                                        <span onclick="increase(@count)" data-id="@item.UnitId" style="cursor:pointer" class="btn">
+                                                            <i class="fal fa-plus"></i>
+                                                        </span>
+
+                                                    </td>
+                                                    <td class="product-subtotal"><span class="amount">@string.Format("{0:C}", item.UnitPrice * item.Quantity)</span></td>
+                                                    <td class="product_remove">
+                                                        <a asp-controller="Cart" asp-action="RemoveItemCart" asp-route-id="@item.UnitId" class="btn">
+                                                            <i class="far fa-trash text-danger"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>*@
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="coupon-all">
+                                        @if (HttpContextAccessor.HttpContext.Session.GetString("CustomerLogin") != null)
+                                        {
+                                            <form asp-action="AddCoupon" asp-controller="Cart" method="post">
+                                                <div class="coupon ">
+                                                    <select class="input-text" id="exampleFormControlSelect1" name="coupon">
+                                                        <option value=""> ----- Choose Coupon -----</option>
+                                                        @foreach (var item in ViewBag.coupons)
+                                                        {
+                                                            <option value="@item.CouponId"> @item.CouponName </option>
+                                                        }
+                                                    </select>
+                                                    <button class="button">Apply Coupon</button>
+                                                </div>
+                                                <div class="coupon2">
+                                                    <input class="button" name="update_cart" value="Update cart" type="submit">
+                                                </div>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <h6>
+                                                Please login to get more discount code
+                                                <a asp-controller="Accounts" asp-action="Login" class="text-danger">Login</a>
+                                            </h6>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 ml-auto">
+                                    <div class="cart-page-total">
+                                        <h2>Cart totals</h2>
+                                        <ul>
+                                            <li>Subtotal <span> @string.Format("{0:C}", Model.Sum(a => a.UnitPrice * a.Quantity))</span></li>
+                                            @if (HttpContextAccessor.HttpContext.Session.GetString("Coupon") != null)
+                                            {
+                                            <li>Total <span>@string.Format("{0:C}", (Model.Sum(a => a.UnitPrice * a.Quantity)) - ViewBag.Coupon.Discount)</span></li>
+                                            }
+                                            else
+                                            {
+                                                <li>Total <span>@string.Format("{0:C}", Model.Sum(a => a.UnitPrice * a.Quantity))</span></li>
+                                            }
+                                        </ul>
+                                        <a asp-controller="Orders" asp-action="Create">Proceed to checkout</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+@section Css {
+    <style>
+        .table-content table {
+            border-color: #dee2e6;
+            border-radius: 0;
+            border-style: solid;
+            border-width: 1px;
+            width: 100%;
+        }
+
+            .table-content table td {
+                border-top: medium none;
+                padding: 22px 6px;
+                vertical-align: middle;
+            }
+
+                .table-content table td.product_remove {
+                    font-size: 20px;
+                }
+
+                .table-content table td.product-thumbnail img {
+                    width: auto;
+                    height: 100%;
+                }
+
+                .table-content table td.product-name {
+                    font-size: 17px;
+                    text-transform: capitalize;
+                }
+
+                .table-content table td.product-price {
+                    font-size: 16px;
+                }
+
+                .table-content table td.product-stock-status span.in-stock, .table-content table td.product-stock-status span.out-stock {
+                    font-size: 12px;
+                    text-transform: capitalize;
+                }
+
+                .table-content table td.product-stock-status span.out-stock {
+                    color: #dc3545;
+                }
+
+                .table-content table td.cart_btn a {
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    background: #010101;
+                    color: #fff;
+                    height: 40px;
+                    line-height: 43px;
+                    width: 130px;
+                    display: inline-block;
+                    transition: all 0.3s ease 0s;
+                }
+
+                    .table-content table td.cart_btn a:hover {
+                        background: #bac34e;
+                        color: #fff;
+                    }
+
+        .coupon-all .coupon select {
+            background-color: transparent;
+            border: 1px solid #dee2e6;
+            font-size: 13px;
+            border-radius: 0;
+            height: 42px;
+            width: 343px;
+            padding: 0 10px;
+        }
+
+        .coupon-all .coupon .button, .coupon-all .coupon2 input.button {
+            background-color: #010101;
+            border: 0 none;
+            border-radius: 2px;
+            color: #fff;
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            height: 42px;
+            letter-spacing: 1px;
+            line-height: 42px;
+            padding: 0 25px;
+            text-transform: uppercase;
+            -webkit-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            width: inherit;
+        }
+
+        .cart-page-total > h2, .cart-page-total > .h2 {
+            font-size: 25px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: capitalize;
+        }
+
+        .cart-page-total > ul li {
+            list-style: none;
+            font-size: 15px;
+            padding: 10px 30px;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: 700;
+        }
+
+        .cart-page-total a {
+            background-color: #010101;
+            border: 1px solid #dee2e6;
+            color: #fff;
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            text-transform: capitalize;
+            -webkit-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+        }
+
+        .coupon-all {
+            margin-top: 30px;
+        }
+
+            .coupon-all .coupon {
+                float: left;
+            }
+
+                .coupon-all .coupon.coupon2, .coupon-all .coupon2.coupon2 {
+                    float: right;
+                }
+
+
+        .quantity .cart-plus-minus .qtybutton {
+            cursor: pointer;
+            -webkit-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            font-size: 10px;
+            color: inherit;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+
+        .cart-page-total > ul {
+            border: 1px solid #dee2e6;
+        }
+
+            .cart-page-total > ul li {
+                list-style: none;
+                font-size: 15px;
+                padding: 10px 30px;
+                border-bottom: 1px solid #dee2e6;
+                font-weight: 700;
+            }
+
+                .cart-page-total > ul li span {
+                    float: right;
+                }
+
+        .cart-page-total > h2, .cart-page-total > .h2 {
+            font-size: 25px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: capitalize;
+        }
+
+        .cart-page-total {
+            padding-top: 30px;
+        }
+
+        .table-content .table > :not(:last-child) > :last-child > * {
+            border-bottom-color: #dee2e6;
+        }
+
+        .table-content table th {
+            border-top: medium none;
+            font-size: 16px;
+            text-transform: capitalize;
+            padding: 20px 10px;
+            text-align: center;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+
+        .coupon-all .coupon input.button:hover, .coupon-all .coupon2 input.button:hover {
+            background-color: #bac34e;
+        }
+
+        .cart-page-total a:hover {
+            background-color: #bac34e;
+            color: #fff;
+        }
+
+        .table-content table td.product-subtotal {
+            font-size: 16px;
+            font-weight: 700;
+        }
+    </style>
+}
+@*@section  Scripts{
+        <script>
+            function increase(index) {
+                alert("sjhd");
+                $.ajax({
+                    url: "@Url.Action("IncreaseQtyCart")",
+                    type: 'Post',
+                    dataType: 'json',
+                    data: {
+                        id: $(this).attr("data-id")
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        $("#test").html(data);
+                    }
+                })
+            }
+        </script>
+    }*@

@@ -1,4 +1,4 @@
-﻿@model LaundryOnline.Models.Config
+﻿@model LaundryOnline.Models.ContactModel
 
 @{
     ViewData["Title"] = "Index";
@@ -63,7 +63,7 @@
                                 </div>
                                 <div class="tp-contact-info-text">
                                     <h4 class="tp-contact-info-title mb-15">Address</h4>
-                                    <p>5/A 5suvastu arcade, 3rd Floor <br>palace road, London.</p>
+                                    <p>@ViewBag.Config.Address</p>
                                 </div>
                             </div>
                         </div>
@@ -74,8 +74,7 @@
                                 </div>
                                 <div class="tp-contact-info-text">
                                     <h4 class="tp-contact-info-title mb-15">Phone</h4>
-                                    <a href="tel:333888200-55">333888200-55</a>
-                                    <a href="tel:444555300-25">444555300-25</a>
+                                    <a href="tel:@ViewBag.Config.ContactNumber">@ViewBag.Config.ContactNumber</a>
                                 </div>
                             </div>
                         </div>
@@ -86,8 +85,7 @@
                                 </div>
                                 <div class="tp-contact-info-text">
                                     <h4 class="tp-contact-info-title mb-15">Email</h4>
-                                    <a href="https://themepure.net/cdn-cgi/l/email-protection#3950575f56794d515c545c494c4b5c175a5654"><span class="__cf_email__" data-cfemail="2c45424a436c58444941495c595e49024f4341">[email&#160;protected]</span></a>
-                                    <a href="https://themepure.net/cdn-cgi/l/email-protection#ed84838b82ad99858880889d989f88c38e8280"><span class="__cf_email__" data-cfemail="85ecebe3eac5f1ede0e8e0f5f0f7e0abe6eae8">[email&#160;protected]</span></a>
+                                    <a href=""><span class="__cf_email__">@ViewBag.Config.EmailAddress</span></a>
                                 </div>
                             </div>
                         </div>
@@ -95,45 +93,48 @@
                 </div>
                 <div class="col-lg-8">
                     <div class="tp-contact-form">
-                        <div class="row custom-mar-20">
-                            <div class="col-md-6 custom-pad-20">
-                                <div class="tp-contact-form-field mb-20">
-                                    <input type="text" placeholder="Full name">
+                        <form asp-action="Index" class="row">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row custom-mar-20">
+                                <div class="col-md-6 custom-pad-20">
+                                    <div class="tp-contact-form-field mb-20">
+                                        <input asp-for="FullName" class="form-control" placeholder="Full Name" />
+                                        <span asp-validation-for="FullName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 custom-pad-20">
+                                    <div class="tp-contact-form-field mb-20">
+                                        <input asp-for="ContactNumber" class="form-control" placeholder="Phone Number" />
+                                        <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 custom-pad-20">
+                                    <div class="tp-contact-form-field mb-20">
+                                        <input asp-for="EmailAddress" class="form-control" placeholder="Email" type="email" />
+                                        <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 custom-pad-20">
+                                    <div class="tp-contact-form-field mb-20">
+                                        <input asp-for="Subject" class="form-control" placeholder="Subject" />
+                                        <span asp-validation-for="Subject" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 custom-pad-20">
+                                    <div class="tp-contact-form-field mb-20">
+                                        <textarea asp-for="Message" class="form-control" placeholder="Message"></textarea>
+                                        <span asp-validation-for="Message" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 custom-pad-20">
+                                    <div class="tp-contact-form-field">
+                                        <button type="submit" class="theme-btn"><i class="flaticon-enter"></i> Send Message</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 custom-pad-20">
-                                <div class="tp-contact-form-field mb-20">
-                                    <input type="email" placeholder="Email Address">
-                                </div>
-                            </div>
-                            <div class="col-md-6 custom-pad-20">
-                                <div class="tp-contact-form-field mb-20">
-                                    <input type="text" placeholder="Phone">
-                                </div>
-                            </div>
-                            <div class="col-md-6 custom-pad-20">
-                                <div class="tp-contact-form-field select-field-arrow mb-20">
-                                    <select>
-                                        <option value="">Choose Subject</option>
-                                        <option value="">House Cleaning</option>
-                                        <option value="">Office Cleaning</option>
-                                        <option value="">Kitchen Cleaning</option>
-                                        <option value="">Club Cleaning</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-12 custom-pad-20">
-                                <div class="tp-contact-form-field mb-20">
-                                    <textarea placeholder="Your Message"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-md-12 custom-pad-20">
-                                <div class="tp-contact-form-field">
-                                    <button type="submit" class="theme-btn"><i class="flaticon-enter"></i> Send Message</button>
-                                </div>
-                            </div>
-                        </div>
+                        </form>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -141,3 +142,10 @@
     <!-- contact area end here -->
 
 </main>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace("Message")
+    </script>
+}

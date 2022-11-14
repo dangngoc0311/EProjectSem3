@@ -1,0 +1,15 @@
+﻿@model IEnumerable<LaundryOnline.Models.Blog>
+
+<div class="tp-footer-news">
+    @foreach (var item in Model)
+    {
+        <div class="tp-footer-news-single mb-15">
+            <h6>
+                <a href="blog-details.html">
+                    @item.Title
+                </a>
+            </h6>
+            <span>@item.CreatedAt.ToShortDateString()</span>
+        </div>
+    }
+</div>

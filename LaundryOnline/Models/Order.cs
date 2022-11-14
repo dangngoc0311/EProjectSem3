@@ -58,16 +58,15 @@ namespace LaundryOnline.Models
 
         [DisplayName("User")]
         [ForeignKey("User")]
-        [Required(AllowEmptyStrings = true)]
         public string UserId { get; set; }
 
         [DisplayName("Payment")]
         [ForeignKey("Payment")]
+        [Required]
         public string PaymentId { get; set; }
 
         [DisplayName("Coupon")]
         [ForeignKey("Coupon")]
-        [Required(AllowEmptyStrings = true)]
         public string CouponId { get; set; }
 
         [DisplayName("User")]
