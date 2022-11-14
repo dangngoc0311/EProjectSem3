@@ -73,6 +73,12 @@
                         <dd>
                             @Model.CreatedAt.ToShortDateString()
                         </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ExpirationDate)
+                        </dt>
+                        <dd>
+                            @Model.ExpirationDate.ToShortDateString()
+                        </dd>
                     </dl>
                 </div>
             </div>

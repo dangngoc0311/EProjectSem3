@@ -137,6 +137,7 @@ namespace LaundryOnline.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(User user)
         {
+            user.Role = 1;
             if (ModelState.IsValid)
             {
                 if (AccountEmailExists(user.EmailAddress))

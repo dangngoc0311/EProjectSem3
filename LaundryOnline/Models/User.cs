@@ -47,6 +47,10 @@ namespace LaundryOnline.Models
         [DefaultValue(1)]
         public byte Status { get; set; }
 
+        [DisplayName("Role")]
+        [DefaultValue(1)]
+        public byte Role { get; set; }
+
         public ICollection<Blog> Blogs { get; set; }
 
         public ICollection<UsedCoupon> UsedCoupons { get; set; }

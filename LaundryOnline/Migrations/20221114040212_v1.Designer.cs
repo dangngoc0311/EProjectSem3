@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaundryOnline.Migrations
 {
     [DbContext(typeof(LaundryOnlineContext))]
-    [Migration("20221112133417_v1")]
+    [Migration("20221114040212_v1")]
     partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,7 +147,8 @@ namespace LaundryOnline.Migrations
 
                     b.Property<byte>("OrderStatus");
 
-                    b.Property<string>("PaymentId");
+                    b.Property<string>("PaymentId")
+                        .IsRequired();
 
                     b.Property<byte>("PaymentStatus");
 
@@ -284,6 +285,8 @@ namespace LaundryOnline.Migrations
                     b.Property<string>("Password")
                         .IsRequired();
 
+                    b.Property<byte>("Role");
+
                     b.Property<byte>("Status");
 
                     b.Property<string>("UserName")
@@ -310,7 +313,8 @@ namespace LaundryOnline.Migrations
 
                     b.HasOne("LaundryOnline.Models.Payment", "Payment")
                         .WithMany("Orders")
-                        .HasForeignKey("PaymentId");
+                        .HasForeignKey("PaymentId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("LaundryOnline.Models.User", "User")
                         .WithMany("Orders")

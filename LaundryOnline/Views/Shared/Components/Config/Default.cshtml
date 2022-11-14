@@ -25,14 +25,14 @@
                         </div>
                         <div class="tp-header-top-info-single-text">
                             <span class="tp-header-top-info-single-label">Email us</span>
-                            <a href="" class="tp-header-top-info-single-content font-medium"><span class="__cf_email__">[@Model.EmailAddress]</span></a>
+                            <a class="tp-header-top-info-single-content font-medium"><span class="__cf_email__">@Model.EmailAddress</span></a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-xxl-4 col-xl-2">
                 <div class="header-logo text-center">
-                    <a href="index.html"><img src="~/assets/img/logo/logo-white.png" class="img-fluid" alt=""></a>
+                    <a asp-controller="Home" asp-action="Index"><img src="~/assets/img/logo/logo-white.png" class="img-fluid" alt=""></a>
                 </div>
             </div>
             <div class="col-xxl-4 col-xl-5">
@@ -68,7 +68,7 @@
         <div class="row justify-content-xl-center align-items-center">
             <div class="col-xl-2 col-8 tp-sticky-column">
                 <div class="tp-sticky-logo">
-                    <a href="index.html"><img src="~/images/config/@Model.Image" class="img-fluid" alt="logo not found"></a>
+                    <a asp-controller="Home" asp-action="Index"><img src="~/images/config/@Model.Image" class="img-fluid" alt="logo not found"></a>
                 </div>
             </div>
             <div class="col-xl-8 col-4">
@@ -149,7 +149,7 @@
                     <h4>Contact Info</h4>
                     <ul>
                         <li><i class="flaticon-pin"></i>@Model.Address</li>
-                        <li><i class="flaticon-email"></i><a href=""><span class="__cf_email__" >[@Model.EmailAddress]</span></a></li>
+                        <li><i class="flaticon-email"></i><a href=""><span class="__cf_email__" >@Model.EmailAddress</span></a></li>
                         <li><i class="flaticon-phone-call"></i><a href="tel:33388820055">@Model.ContactNumber</a></li>
                     </ul>
                     <div class="sidebar__menu--social">
