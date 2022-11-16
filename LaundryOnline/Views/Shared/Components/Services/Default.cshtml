@@ -2,6 +2,6 @@
 <ul class="sub-menu">
     @foreach (var item in Model)
     {
-        <li><a asp-action="Details" asp-route-id="@item.ServiceId">@Html.DisplayFor(modelItem => item.ServiceName)</a></li>
+        <li><a asp-action="Index" asp-controller="Services" asp-route-serviceId="@item.ServiceId">@Html.DisplayFor(modelItem => item.ServiceName)</a></li>
     }
 </ul>

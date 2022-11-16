@@ -227,6 +227,8 @@ namespace LaundryOnline.Migrations
                     b.Property<string>("UnitId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Image");
+
                     b.Property<string>("ServiceId");
 
                     b.Property<string>("UnitName")

@@ -42,161 +42,97 @@
                 </div>
             </div>
             <div class="row">
-                @foreach (var item in Model)
-                {
-                    <div class="col-lg-6">
-                        <div class="tp-service-three tp-service-four mb-30 wow fadeInUp" data-wow-delay=".6s">
-                            <div class="tp-service-three-img">
-                                <img src="assets/img/service/service-9.jpg" class="img-fluid" alt="img-not-found">
-                                <div class="tp-service-three-img-icon">
-                                    <i class="flaticon-house-cleaning"></i>
-                                </div>
-                                <div class="tp-service-three-img-overlay">
-                                    <div class="tp-service-three-img-overlay-icon">
+                <div class="col-md-6"></div>
+                <div class="col-md-2">
+                    <form method="get" class="form-inline ml-lg-auto" asp-action="Index" asp-controller="Services">
+                        <div class="tp-contact-form-field select-field-arrow mb-20">
+                            <select name="serviceId" onchange="forms[0].submit()" class="form-control" style="height:60px !important;border-radius: 10px !important;background: #f7f7f7 !important;color: #83868c !important;border: none !important;">
+                                <option value="">----Choose----</option>
+                                @foreach (var item in ViewBag.Service)
+                                {
+                                    @if (ViewBag.ServiceId == item.ServiceId)
+                                    {
+                                        <option value="@item.ServiceId" selected>@item.ServiceName</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.ServiceId">@item.ServiceName</option>
+
+                                    }
+                                }
+                            </select>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="widget wow fadeInUp right col-md-4" data-wow-delay=".3s">
+                    <div class="sidebar--widget__search mb-45 right">
+                        <form method="get" class="form-inline ml-lg-auto" asp-action="Index" asp-controller="Services">
+                            <div class="form-group">
+                                <label class="sr-only" for="">label</label>
+                                <input class="form-control" name="name" placeholder="Search">
+                            </div>
+                            <button type="submit" class="btn btn-icon btn-default mr-1"><i class="fas fa-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-lg-6">
+                            <div class="tp-service-three tp-service-four mb-30 wow fadeInUp" data-wow-delay=".6s">
+                                <div class="tp-service-three-img">
+                                    <img width="260" height="260" src="~/images/unit/@item.Image" class="img-fluid" alt="@item.UnitName">
+                                    <div class="tp-service-three-img-icon">
                                         <i class="flaticon-house-cleaning"></i>
+                                    </div>
+                                    <div class="tp-service-three-img-overlay">
+                                        <div class="tp-service-three-img-overlay-icon">
+                                            <i class="flaticon-house-cleaning"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tp-service-three-text fix">
+                                    <h4 class="tp-service-three-title mb-20 heading-color-black-with-hover">
+                                        <a>@item.UnitName</a>
+                                    </h4>
+                                    <h6 class="mb-30">
+                                        @string.Format("{0:C0}", @item.UnitPrice)
+                                    </h6>
+                                    <p>@item.Service.ServiceName</p>
+                                    <div class="tp-service-three-text-btn">
+                                        <a asp-controller="Cart" asp-action="AddCart" asp-route-id="@item.UnitId" class="yellow-btn">
+                                            <i class="fas fa-shopping-basket "></i> Add Cart
+                                        </a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tp-service-three-text fix">
-                                <h4 class="tp-service-three-title mb-20 heading-color-black-with-hover">
-                                    <a>@item.UnitName</a>
-                                </h4>
-                                <p class="mb-30">
+                        </div>
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="basic-pagination mt-10 wow fadeInUp" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
 
-                                </p>
-                                <div class="tp-service-three-text-btn">
-                                    <a asp-controller="Cart" asp-action="AddCart" asp-route-id="@item.UnitId" class="yellow-btn">
-                                        <i class="fas fa-shopping-basket "></i> Add Cart
-                                    </a>
-                                </div>
-                            </div>
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+                                new PagedListRenderOptions
+                                {
+                                    LiElementClasses = new string[] { "" },
+                                    PageClasses = new string[] { "page-numbers" }
+                                }
+                            )
+
                         </div>
                     </div>
-                }
-            </div>
-        </div>
-    </section>
-    <!-- service area end here -->
-    <!-- testimonial area start here -->
-    <section class="tp-testimonial-area-two tp-testimonial-area-four position-relative">
-        <div class="tp-testimonial-area-two-shape"></div>
-        <div class="container position-relative">
-            <div class="tp-testimonial-title-wrapper pt-120">
-                <h5 class="tp-section-subtitle common-yellow-shape mb-20 heading-color-black">Our Popular Services</h5>
-                <h2 class="tp-section-title heading-color-black">Customer Says About <br>Our Service</h2>
-            </div>
-        </div>
-        <div class="tp-testimonial-divide">
-            <div class="tp-testimonial-two-wrapper z-index">
-                <div class="tp-testimonial-two-active swiper-container common-dots pb-40">
-                    <div class="swiper-wrapper">
-                        <div class="tp-testimonial-two position-relative swiper-slide mb-30">
-                            <div class="tp-testimonial-two-author mb-20">
-                                <div class="tp-testimonial-two-author-img">
-                                    <img src="assets/img/testimonial/author-2.png" class="img-fluid" alt="img not found">
-                                </div>
-                                <div class="tp-testimonial-two-author-text">
-                                    <span>Senior Designer</span>
-                                    <h4 class="tp-testimonial-two-name">Petar Mansion</h4>
-                                </div>
-                            </div>
-                            <p>
-                                Hymenaeos rhoncus proin aliquam justo sum mauris rutrum nulam semper purus rutru non sociis
-                                libero varius cumer to duine felis enisa porta ridiculus nisl acequis.
-                            </p>
-                            <div class="tp-testimonial-two-qoute">
-                                <i class="fal fa-quote-left"></i>
-                            </div>
-                        </div>
-                        <div class="tp-testimonial-two position-relative swiper-slide mb-30">
-                            <div class="tp-testimonial-two-author mb-20">
-                                <div class="tp-testimonial-two-author-img">
-                                    <img src="assets/img/testimonial/author-3.png" class="img-fluid" alt="img not found">
-                                </div>
-                                <div class="tp-testimonial-two-author-text">
-                                    <span>Wp Developer</span>
-                                    <h4 class="tp-testimonial-two-name">Broad Richard</h4>
-                                </div>
-                            </div>
-                            <p>
-                                Hymenaeos rhoncus proin aliquam justo sum mauris rutrum nulam semper purus rutru non sociis
-                                libero varius cumer to duine felis enisa porta ridiculus nisl acequis.
-                            </p>
-                            <div class="tp-testimonial-two-qoute">
-                                <i class="fal fa-quote-left"></i>
-                            </div>
-                        </div>
-                        <div class="tp-testimonial-two position-relative swiper-slide mb-30">
-                            <div class="tp-testimonial-two-author mb-20">
-                                <div class="tp-testimonial-two-author-img">
-                                    <img src="assets/img/testimonial/author-2.png" class="img-fluid" alt="img not found">
-                                </div>
-                                <div class="tp-testimonial-two-author-text">
-                                    <span>Senior Developer</span>
-                                    <h4 class="tp-testimonial-two-name">Jhon Doe</h4>
-                                </div>
-                            </div>
-                            <p>
-                                Hymenaeos rhoncus proin aliquam justo sum mauris rutrum nulam semper purus rutru non sociis
-                                libero varius cumer to duine felis enisa porta ridiculus nisl acequis.
-                            </p>
-                            <div class="tp-testimonial-two-qoute">
-                                <i class="fal fa-quote-left"></i>
-                            </div>
-                        </div>
-                        <div class="tp-testimonial-two position-relative swiper-slide mb-30">
-                            <div class="tp-testimonial-two-author mb-20">
-                                <div class="tp-testimonial-two-author-img">
-                                    <img src="assets/img/testimonial/author-3.png" class="img-fluid" alt="img not found">
-                                </div>
-                                <div class="tp-testimonial-two-author-text">
-                                    <span>Senior Designer</span>
-                                    <h4 class="tp-testimonial-two-name">Shane Watson</h4>
-                                </div>
-                            </div>
-                            <p>
-                                Hymenaeos rhoncus proin aliquam justo sum mauris rutrum nulam semper purus rutru non sociis
-                                libero varius cumer to duine felis enisa porta ridiculus nisl acequis.
-                            </p>
-                            <div class="tp-testimonial-two-qoute">
-                                <i class="fal fa-quote-left"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- If we need pagination -->
-                    <div class="swiper-pagination-testimonial slide-dots "></div>
                 </div>
             </div>
-            <div class="tp-testimonial-two-form tp-testimonial-two-form-four pt-120 z-index" data-background="assets/img/testimonial/testimonial-img-4.jpg">
-                <form action="#" class="text-start tp-testimonial-two-form-wrapper">
-                    <h3 class="tp-testimonial-form-title"><span>Free</span> Estimate</h3>
-                    <p class="mb-30">Free know your project estimate and recent offer</p>
-                    <div class="input-field mb-15">
-                        <input type="text" placeholder="Your Name">
-                    </div>
-                    <div class="input-field mb-15">
-                        <input type="text" placeholder="Your Name">
-                    </div>
-                    <div class="input-field select-field-arrow mb-15">
-                        <select>
-                            <option value="">Choose Service</option>
-                            <option value="">House Cleaning</option>
-                            <option value="">Office Cleaning</option>
-                            <option value="">Kitchen Cleaning</option>
-                            <option value="">Club Cleaning</option>
-                        </select>
-                    </div>
-                    <div class="input-field mb-15">
-                        <textarea placeholder="Write Message"></textarea>
-                    </div>
-                    <div class="input-field">
-                        <button type="submit" class="yellow-btn">Free Estimate +</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
+        </section>
 
-</main>
+
+        <!-- service area end here -->
+        <!-- testimonial area start here -->
+
+
+    </main>
 
