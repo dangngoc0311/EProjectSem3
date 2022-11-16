@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LaundryOnline.Migrations
 {
     [DbContext(typeof(LaundryOnlineContext))]
-    [Migration("20221114040212_v1")]
+    [Migration("20221115022451_v1")]
     partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -228,6 +228,8 @@ namespace LaundryOnline.Migrations
                 {
                     b.Property<string>("UnitId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Image");
 
                     b.Property<string>("ServiceId");
 

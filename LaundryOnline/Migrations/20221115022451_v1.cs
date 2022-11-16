@@ -108,6 +108,7 @@ namespace LaundryOnline.Migrations
                     UnitId = table.Column<string>(nullable: false),
                     UnitName = table.Column<string>(maxLength: 150, nullable: false),
                     UnitPrice = table.Column<double>(nullable: false),
+                    Image = table.Column<string>(nullable: true),
                     ServiceId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

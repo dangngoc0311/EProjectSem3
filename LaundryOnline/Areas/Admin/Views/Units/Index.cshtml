@@ -38,6 +38,9 @@
                         Unit Id
                     </th>
                     <th>
+                        Image
+                    </th>
+                    <th>
                         Unit Name
                     </th>
                     <th>
@@ -55,6 +58,9 @@
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.UnitId)
+                    </td>
+                    <td>
+                        <img src="~/images/unit/@item.Image" alt="@item.UnitName" width="80" />
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.UnitName)

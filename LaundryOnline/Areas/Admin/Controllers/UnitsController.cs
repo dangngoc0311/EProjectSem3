@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LaundryOnline.Models;
 using NToastNotify;
 using X.PagedList;
+using System.IO;
 
 namespace LaundryOnline.Areas.Admin.Controllers
 {
@@ -70,14 +71,32 @@ namespace LaundryOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(unit);
-                await _context.SaveChangesAsync();
-                _toastNotification.AddSuccessToastMessage("Create new service successfully");
+
+
+                var files = HttpContext.Request.Form.Files;
+                if (files.Count() > 0 && files[0].Length > 0)
+                {
+                    var file = files[0];
+                    var FileName = file.FileName;
+
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\unit", FileName);
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                        unit.Image = FileName;
+                        _context.Add(unit);
+                        await _context.SaveChangesAsync();
+                    }
+
+                }
+                _toastNotification.AddSuccessToastMessage("Create new unit successfully");
                 return RedirectToAction(nameof(Index));
             }
-            _toastNotification.AddErrorToastMessage("Create new service failed");
-            ViewData["ServiceId"] = new SelectList(_context.Services, "ServiceId", "ServiceId", unit.ServiceId);
-            return View(unit);
+            else
+            {
+                _toastNotification.AddErrorToastMessage("Create new Unit failed");
+                return View(unit);
+            }
         }
 
         // GET: Admin/Units/Edit/5
@@ -102,7 +121,7 @@ namespace LaundryOnline.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("UnitId,UnitName,UnitPrice,ServiceId")] Unit unit)
+        public async Task<IActionResult> Edit(string id, [Bind("UnitId,UnitName,UnitPrice,ServiceId")] Unit unit, string img)
         {
             if (id != unit.UnitId)
             {
@@ -113,8 +132,26 @@ namespace LaundryOnline.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(unit);
+                    var files = HttpContext.Request.Form.Files;
+                    if (files.Count() > 0 && files[0].Length > 0)
+                    {
+                        var file = files[0];
+                        var FileName = file.FileName;
+
+                        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\unit", FileName);
+                        using (var stream = new FileStream(path, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                            unit.Image = FileName;
+                        }
+                    }
+                    else
+                    {
+                        unit.Image = img;
+                    }
+                    _context.Entry(unit).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
+
                     _toastNotification.AddSuccessToastMessage("Update successfully");
                 }
                 catch (DbUpdateConcurrencyException)
@@ -130,7 +167,6 @@ namespace LaundryOnline.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ServiceId"] = new SelectList(_context.Services, "ServiceId", "ServiceId", unit.ServiceId);
             return View(unit);
         }
 

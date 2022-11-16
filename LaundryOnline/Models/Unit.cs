@@ -24,6 +24,9 @@ namespace LaundryOnline.Models
         [Range(1, Int32.MaxValue)]
         public double UnitPrice { get; set; }
 
+        [DisplayName("Image")]
+        public string Image { get; set; }
+
         [ForeignKey("Service")]
         public string ServiceId { get; set; }
 
