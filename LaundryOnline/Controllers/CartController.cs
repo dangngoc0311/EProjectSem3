@@ -38,7 +38,26 @@ namespace LaundryOnline.Controllers
         {
             if (HttpContext.Session.GetString("CustomerLogin") != null)
             {
-                ViewBag.coupons = _context.Coupons;
+                List<Coupon> AllCoupons = _context.Coupons.ToList();
+                List<Coupon> Coupon = new List<Coupon>();
+                var listUsedCoupon = _context.UsedCoupons.Where(u => u.UserId == HttpContext.Session.GetString("CustomerId")).ToList();
+                foreach (var item in AllCoupons)
+                {
+                    bool check = false;
+                    foreach (var i in listUsedCoupon)
+                    {
+                        if (item.CouponId.Equals(i.CouponId))
+                        {
+                            check = true;
+                        }
+                    }
+                    if (check)
+                    {
+                        continue;
+                    }
+                    Coupon.Add(item);
+                }
+                ViewBag.coupons = Coupon;
             }
             if (HttpContext.Session.GetString("Coupon") != null)
             {
@@ -59,6 +78,7 @@ namespace LaundryOnline.Controllers
                 {
                     UnitId = unit.UnitId,
                     UnitName = unit.UnitName,
+                    Image = unit.Image,
                     UnitPrice = unit.UnitPrice,
                     Quantity = 1
                 };

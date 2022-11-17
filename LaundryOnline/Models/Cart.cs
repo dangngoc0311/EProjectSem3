@@ -9,6 +9,7 @@ namespace LaundryOnline.Models
     {
         public string UnitId { get; set; }
         public string UnitName { get; set; }
+        public string Image { get; set; }
         public double UnitPrice { get; set; }
         public int Quantity { get; set; }
     }

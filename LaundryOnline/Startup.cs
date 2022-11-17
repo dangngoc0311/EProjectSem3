@@ -47,7 +47,7 @@ namespace LaundryOnline
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
+                //options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
@@ -69,6 +69,7 @@ namespace LaundryOnline
                 options.IdleTimeout = new TimeSpan(0, 30, 0);
                 options.Cookie.Name = "Bkap.Session";
                 options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

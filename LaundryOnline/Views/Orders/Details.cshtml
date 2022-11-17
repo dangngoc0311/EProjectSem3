@@ -4,94 +4,478 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<main>
+    <!-- breadcrumb area start -->
+    <div class="tp-page-title-area pt-180 pb-185 position-relative fix" data-background="/assets/img/slider/breadcrumb-bg-1.jpg">
+        <div class="tp-custom-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="tp-page-title z-index">
+                        <h2 class="breadcrumb-title">Detail <span>Order</span></h2>
+                        <div class="breadcrumb-menu">
+                            <nav class="breadcrumb-trail breadcrumbs">
+                                <ul class="trail-items">
+                                    <li class="trail-item trail-begin">
+                                        <a asp-controller="Home" asp-action="Index">Home</a>
+                                    </li>
+                                    <li class="trail-item trail-end"><span>Order</span></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="tp-service-area-three pt-120 pb-90">
+        <div class="container card">
+            <div class="row card-body">
+                <div class="col-12">
+                    <div class="invoice p-3 mb-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <small class="float-right" style="float:right">Date: @Model.CreatedAt?.ToLongDateString()</small>
+                            </div>
+                        </div>
+                        <div class="row invoice-info">
+                            <div class="col-sm-6 invoice-col">
+                                <address>
+                                    <strong>@Model.FullName</strong><br> <br>
+                                    <i class="fas fa-envelope-open mr-10"></i> @Model.EmailAddress
+                                    <br>
+                                    <i class="fas fa-phone-alt mr-10"></i> @Model.ContactNumber
+                                    <br>
+                                    <i class="fas fa-map-marker-alt mr-10"></i>@Model.Address
+                                </address>
+                            </div>
 
-<h2>Details</h2>
+                            <div class="col-sm-6 invoice-col">
+                                <b> @Html.DisplayNameFor(model => model.OrderId) : @Model.OrderId</b><br>
+                                <br>
+                                <b>@Html.DisplayNameFor(model => model.Payment) :</b> @Model.Payment.PaymentName<br>
+                                <div class="d-flex">
+                                    <b>@Html.DisplayNameFor(model => model.OrderStatus) : </b>
+                                    @if (Model.OrderStatus == 0)
+                                    {
+                                        <div class="status">
+                                            <div class="icon warning"> </div>
+                                            <div class="text text-warning"> Pending </div>
+                                        </div>
+                                    }
+                                    else if (Model.OrderStatus == 1)
+                                    {
+                                        <div class="status">
+                                            <div class="icon primary"> </div>
+                                            <div class="text text-primary"> Shipped </div>
+                                        </div>
+                                    }
+                                    else if (Model.OrderStatus == 2)
+                                    {
+                                        <div class="status">
+                                            <div class="icon success"> </div>
+                                            <div class="text text-success"> Delivered </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="status">
+                                            <div class="icon off"> </div>
+                                            <div class="text text-danger"> Delivered </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="d-flex">
+                                    <b>@Html.DisplayNameFor(model => model.PaymentStatus):</b>
+                                    @if (Model.PaymentStatus == 0)
+                                    {
+                                        <div class="status">
+                                            <div class="icon off"> </div>
+                                            <div class="text text-danger"> Unpaid </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="status">
+                                            <div class="icon success"> </div>
+                                            <div class="text text-success"> Paid </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 offset-md-3">
+                                @if (Model.OrderStatus == 0)
+                                {
+                                    <div class="track">
+                                        <div class="step active">
+                                            <span class="icon"> <i class="fa fa-check"></i> </span>
+                                            <span class="text">Pending</span>
+                                        </div>
+                                        <div class="step">
+                                            <span class="icon"> <i class="fa fa-truck"></i> </span>
+                                            <span class="text"> Shipping </span>
+                                        </div>
+                                        <div class="step">
+                                            <span class="icon"> <i class="fa fa-box"></i> </span>
+                                            <span class="text">Delivered</span>
+                                        </div>
+                                    </div>
+                                }
+                                else if (Model.OrderStatus == 1)
+                                {
+                                    <div class="track">
+                                        <div class="step active">
+                                            <span class="icon"> <i class="fa fa-check"></i> </span>
+                                            <span class="text">Pending</span>
+                                        </div>
+                                        <div class="step active">
+                                            <span class="icon"> <i class="fa fa-truck"></i> </span>
+                                            <span class="text"> Shipping </span>
+                                        </div>
+                                        <div class="step">
+                                            <span class="icon"> <i class="fa fa-box"></i> </span>
+                                            <span class="text">Delivered</span>
+                                        </div>
+                                    </div>
+                                }
+                                else if (Model.OrderStatus == 2)
+                                {
+                                    <div class="track">
+                                        <div class="step active">
+                                            <span class="icon"> <i class="fa fa-check"></i> </span>
+                                            <span class="text">Pending</span>
+                                        </div>
+                                        <div class="step active">
+                                            <span class="icon"> <i class="fa fa-truck"></i> </span>
+                                            <span class="text"> Shipping </span>
+                                        </div>
+                                        <div class="step active">
+                                            <span class="icon"> <i class="fa fa-box"></i> </span>
+                                            <span class="text">Delivered</span>
+                                        </div>
+                                    </div>}
 
-<div>
-    <h4>Order</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FullName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.EmailAddress)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EmailAddress)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ContactNumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ContactNumber)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Note)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Note)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PaymentStatus)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PaymentStatus)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.OrderStatus)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.OrderStatus)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdatedAt)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedAt)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.User)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.UserId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Payment)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Payment.PaymentId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Coupon)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Coupon.CouponId)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.OrderId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="table-content table-responsive">
+                                <table class="table text-center">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Unit Name
+                                            </th>
+                                            <th>Image</th>
+                                            <th>
+                                                Price
+                                            </th>
+                                            <th>
+                                                Quantity
+                                            </th>
+                                            <th>
+                                                Total Price
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ViewBag.OrderDetail)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.Unit.UnitName
+                                                </td>
+                                                <td>
+                                                    <img src="~/images/unit/@item.Unit.Image" alt="@item.Unit.UnitName" width="80"/>
+                                                </td>
+                                                <td>
+                                                    @string.Format("{0:C0}", item.PriceUnit)
+                                                </td>
+                                                <td>
+                                                    @item.Quantity
+                                                </td>
+                                                <td>
+                                                    @string.Format("{0:C0}", (item.Quantity * item.PriceUnit))
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.QrCode))" width="200" />
+                            </div>
+                            <div class="col-6">
+                                <p class="lead">Amount Due @Model.UpdatedAt?.ToShortDateString()</p>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            @if (Model.CouponId != null)
+                                            {
+                                                <tr>
+                                                    <th style="width:50%">Coupon:</th>
+                                                    <td> - @string.Format("{0:C0}", Model.Coupon.Discount)</td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <th style="width:50%">Coupon:</th>
+                                                    <td> </td>
+                                                </tr>
+                                            }
+                                            <tr>
+                                                <th>Total:</th>
+                                                <td>@string.Format("{0:C0}", Model.Price)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row no-print">
+                            <div class="col-6">
+                            </div>
+                            <div class="col-6">
+                                <a href="invoice-print.html" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
+                                <button type="button" class="btn btn-success float-right">
+                                    <i class="far fa-credit-card"></i> Submit
+                                    Payment
+                                </button>
+                                <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                                    <i class="fas fa-download"></i> Generate PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<a asp-action="Index">Back to List</a>
+@section Css{
+    <style>
+        body {
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            color: #212529;
+            font-size: 16px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+
+            .status .icon.success {
+                background: #198754;
+            }
+
+            .status .icon.off {
+                background: #dc3545;
+            }
+
+            .status .icon.warning {
+                background: #ffc107;
+            }
+
+            .status .icon.primary {
+                background: #0d6efd;
+            }
+
+            .status .icon {
+                background: #2e7d32;
+                margin-right: 10px;
+                width: 14px;
+                height: 14px;
+                border-radius: 50%;
+            }
+
+        .table-content table {
+            border-color: #dee2e6;
+            border-radius: 0;
+            border-style: solid;
+            border-width: 1px;
+            width: 100%;
+        }
+
+            .table-content table td {
+                border-top: medium none;
+                padding: 22px 6px;
+                vertical-align: middle;
+            }
+
+                .table-content table td.product_remove {
+                    font-size: 20px;
+                }
+
+                .table-content table td.product-thumbnail img {
+                    width: auto;
+                    height: 100%;
+                }
+
+                .table-content table td.product-name {
+                    font-size: 17px;
+                    text-transform: capitalize;
+                }
+
+                .table-content table td.product-price {
+                    font-size: 16px;
+                }
+
+                .table-content table td.product-stock-status span.in-stock, .table-content table td.product-stock-status span.out-stock {
+                    font-size: 12px;
+                    text-transform: capitalize;
+                }
+
+                .table-content table td.product-stock-status span.out-stock {
+                    color: #dc3545;
+                }
+
+                .table-content table td.cart_btn a {
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    background: #010101;
+                    color: #fff;
+                    height: 40px;
+                    line-height: 43px;
+                    width: 130px;
+                    display: inline-block;
+                    transition: all 0.3s ease 0s;
+                }
+
+                    .table-content table td.cart_btn a:hover {
+                        background: #bac34e;
+                        color: #fff;
+                    }
+
+
+
+        .table-content .table > :not(:last-child) > :last-child > * {
+            border-bottom-color: #dee2e6;
+        }
+
+        .table-content table th {
+            border-top: medium none;
+            font-size: 16px;
+            text-transform: capitalize;
+            padding: 20px 10px;
+            text-align: center;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+
+
+        .track {
+            position: relative;
+            background-color: #ddd;
+            height: 7px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            margin-bottom: 95px;
+            margin-top: 60px
+        }
+
+            .track .step {
+                -webkit-box-flex: 1;
+                flex-grow: 1;
+                width: 33%;
+                margin-top: -18px;
+                text-align: center;
+                position: relative
+            }
+
+                .track .step.active:before {
+                    background: #FF5722
+                }
+
+                .track .step::before {
+                    height: 7px;
+                    position: absolute;
+                    content: "";
+                    width: 100%;
+                    left: 0;
+                    top: 18px
+                }
+
+                .track .step.active .icon {
+                    background: #ee5435;
+                    color: #fff
+                }
+
+            .track .icon {
+                display: inline-block;
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                position: relative;
+                border-radius: 100%;
+                background: #ddd
+            }
+
+            .track .step.active .text {
+                font-weight: 400;
+                color: #000
+            }
+
+            .track .text {
+                display: block;
+                margin-top: 7px
+            }
+
+        .itemside {
+            position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            width: 100%
+        }
+
+            .itemside .aside {
+                position: relative;
+                flex-shrink: 0
+            }
+
+        .img-sm {
+            width: 80px;
+            height: 80px;
+            padding: 7px
+        }
+
+        ul.row, ul.row-sm {
+            list-style: none;
+            padding: 0
+        }
+
+        .itemside .info {
+            padding-left: 15px;
+            padding-right: 7px
+        }
+
+        .itemside .title {
+            display: block;
+            margin-bottom: 5px;
+            color: #212529
+        }
+
+
+
+        .invoice-col {
+            border: 1px solid #ddd;
+            padding: 20px;
+        }
+    </style>
+}
