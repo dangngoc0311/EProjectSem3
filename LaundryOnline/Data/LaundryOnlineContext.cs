@@ -25,6 +25,5 @@ namespace LaundryOnline.Models
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<UsedCoupon> UsedCoupons { get; set; }
         public DbSet<Config> Config { get; set; }
-
     }
 }
