@@ -48,7 +48,7 @@
                     </div>
                     <div class="tp-header-top-info-single">
                         <div class="tp-header-top-info-single-btn">
-                            @if (HttpContextAccessor.HttpContext.Session.GetString("CustomerLogin") != null)
+                            @if (HttpContextAccessor.HttpContext.Session.GetString("CustomerLogin ") != null)
                             {
                                 <a asp-controller="Accounts" asp-action="Logout" class="yellow-btn"><i class="flaticon-enter"></i> Logout</a>
                             }
