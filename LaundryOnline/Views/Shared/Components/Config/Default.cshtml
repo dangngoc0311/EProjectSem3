@@ -96,7 +96,7 @@
                                         <a href="#">@HttpContextAccessor.HttpContext.Session.GetString("CustomerLogin")</a>
                                         <ul class="sub-menu">
                                             <li><a href="about.html">My Account</a></li>
-                                            <li><a href="appointment.html">My Order</a></li>
+                                            <li><a asp-controller="Orders" asp-action="Index">My Order</a></li>
                                             <li><a asp-controller="Accounts" asp-action="Logout">Logout</a></li>
                                         </ul>
                                     </li>
@@ -149,7 +149,7 @@
                     <h4>Contact Info</h4>
                     <ul>
                         <li><i class="flaticon-pin"></i>@Model.Address</li>
-                        <li><i class="flaticon-email"></i><a href=""><span class="__cf_email__" >@Model.EmailAddress</span></a></li>
+                        <li><i class="flaticon-email"></i><a href=""><span class="__cf_email__">@Model.EmailAddress</span></a></li>
                         <li><i class="flaticon-phone-call"></i><a href="tel:33388820055">@Model.ContactNumber</a></li>
                     </ul>
                     <div class="sidebar__menu--social">

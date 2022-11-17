@@ -42,6 +42,7 @@
                                     <thead>
                                         <tr>
                                             <th class="cart-product-name">@Html.DisplayNameFor(model => model.UnitName)</th>
+                                            <th class="cart-product-name">@Html.DisplayNameFor(model => model.Image)</th>
                                             <th class="product-price">@Html.DisplayNameFor(model => model.UnitPrice)</th>
                                             <th class="product-quantity">@Html.DisplayNameFor(model => model.Quantity)</th>
                                             <th class="product_remove">Total</th>
@@ -53,6 +54,9 @@
                                         {
                                             <tr>
                                                 <td class="product-name"><a href="javascript:void(0)">@item.UnitName</a></td>
+                                                <td class="product-name">
+                                                    <img width="80" height="80" src="~/images/unit/@item.Image" class="img-fluid" alt="@item.UnitName">
+                                                </td>
                                                 <td class="product-price"><span class="amount">@string.Format("{0:C}", item.UnitPrice)</span></td>
                                                 <td class="quantity">
                                                     <a asp-controller="Cart" asp-action="DecreaseQtyCart" asp-route-id="@item.UnitId" class="btn">
