@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using LaundryOnline.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -63,15 +64,13 @@ namespace LaundryOnline.Areas.Admin.Controllers
         {
             return _context.Users.Any(e => e.UserId == id);
         }
-        public async Task<IActionResult> Details()
+        public IActionResult Details()
         {
-
-            var user = await _context.Users.FirstOrDefaultAsync();
+            User user = _context.Users.Where(u=>u.UserId== HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value).FirstOrDefault();
             if (user == null)
             {
                 return NotFound();
             }
-
             return View(user);
         }
     }

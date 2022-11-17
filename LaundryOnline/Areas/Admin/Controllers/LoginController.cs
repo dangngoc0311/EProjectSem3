@@ -34,7 +34,7 @@ namespace LaundryOnline.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Index(User model)
+        public IActionResult Index(LoginModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -45,13 +45,14 @@ namespace LaundryOnline.Areas.Admin.Controllers
                 var checkAccount = _context.Users.FirstOrDefault(u => u.EmailAddress == model.EmailAddress);
                 if (checkAccount != null)
                 {
-                    if (checkAccount.Role == 1)
+                    if (checkAccount.Role == 0)
                     {
                         if (checkAccount.Password == CreateMD5(model.Password))
                         {
                             var identity = new ClaimsIdentity(new[]
                      {
                         new Claim(ClaimTypes.Name, checkAccount.EmailAddress),
+                        new Claim(ClaimTypes.NameIdentifier, checkAccount.UserId),
                         new Claim(ClaimTypes.Role,"admin")
                     }, "BkapSecurityScheme");
                             var principal = new ClaimsPrincipal(identity);
@@ -89,55 +90,7 @@ namespace LaundryOnline.Areas.Admin.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        static string key = "ngocxinhgai";
-        public static string Encrypt(string toEncrypt)
-        {
-            bool useHashing = true;
-            byte[] keyArray;
-            byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes(toEncrypt);
 
-            if (useHashing)
-            {
-                MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
-                keyArray = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(key));
-            }
-            else
-                keyArray = UTF8Encoding.UTF8.GetBytes(key);
-
-            TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
-            tdes.Key = keyArray;
-            tdes.Mode = CipherMode.ECB;
-            tdes.Padding = PaddingMode.PKCS7;
-
-            ICryptoTransform cTransform = tdes.CreateEncryptor();
-            byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
-
-            return Convert.ToBase64String(resultArray, 0, resultArray.Length);
-        }
-        public static string Decrypt(string toDecrypt)
-        {
-            bool useHashing = true;
-            byte[] keyArray;
-            byte[] toEncryptArray = Convert.FromBase64String(toDecrypt);
-
-            if (useHashing)
-            {
-                MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
-                keyArray = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(key));
-            }
-            else
-                keyArray = UTF8Encoding.UTF8.GetBytes(key);
-
-            TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
-            tdes.Key = keyArray;
-            tdes.Mode = CipherMode.ECB;
-            tdes.Padding = PaddingMode.PKCS7;
-
-            ICryptoTransform cTransform = tdes.CreateDecryptor();
-            byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
-
-            return UTF8Encoding.UTF8.GetString(resultArray);
-        }
         public static string CreateMD5(string input)
         {
             using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
@@ -152,17 +105,6 @@ namespace LaundryOnline.Areas.Admin.Controllers
                 return sb.ToString();
             }
         }
-        public static string CreateRandomPassword(int PasswordLength)
-        {
-            string _allowedChars = "0123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ";
-            Random randNum = new Random();
-            char[] chars = new char[PasswordLength];
-            int allowedCharCount = _allowedChars.Length;
-            for (int i = 0; i < PasswordLength; i++)
-            {
-                chars[i] = _allowedChars[(int)((_allowedChars.Length) * randNum.NextDouble())];
-            }
-            return new string(chars);
-        }
+
     }
 }
