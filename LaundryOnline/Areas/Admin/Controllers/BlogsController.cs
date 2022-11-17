@@ -72,7 +72,7 @@ namespace LaundryOnline.Areas.Admin.Controllers
         {
             blog.Status = 1;
             blog.CreatedAt = DateTime.UtcNow.Date;
-            blog.UserId = "B8950";
+            blog.UserId = "f44d63ce-2cae-4132-a01b-14b4911475e1";
 
 
             if (ModelState.IsValid)
