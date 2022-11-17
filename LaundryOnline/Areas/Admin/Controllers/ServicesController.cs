@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using LaundryOnline.Models;
 using NToastNotify;
 using X.PagedList;
+using Microsoft.AspNetCore.Authorization;
+
 namespace LaundryOnline.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class ServicesController : Controller
     {
         private readonly LaundryOnlineContext _context;

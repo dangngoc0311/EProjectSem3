@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using LaundryOnline.Models;
 using X.PagedList;
 using NToastNotify;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LaundryOnline.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class CouponsController : Controller
     {
         private readonly LaundryOnlineContext _context;

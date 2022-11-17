@@ -9,10 +9,12 @@ using LaundryOnline.Models;
 using NToastNotify;
 using X.PagedList;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LaundryOnline.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class BannerController : Controller
     {
         private readonly LaundryOnlineContext _context;

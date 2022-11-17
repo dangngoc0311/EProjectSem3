@@ -63,5 +63,16 @@ namespace LaundryOnline.Areas.Admin.Controllers
         {
             return _context.Users.Any(e => e.UserId == id);
         }
+        public async Task<IActionResult> Details()
+        {
+
+            var user = await _context.Users.FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
     }
 }
