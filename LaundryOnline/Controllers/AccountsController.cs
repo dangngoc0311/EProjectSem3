@@ -32,11 +32,18 @@ namespace LaundryOnline.Controllers
             return View();
         }
 
-
-        public ActionResult Details(int id)
+        public IActionResult Details()
         {
-            return View();
+            var user = _context.Users.Where(x => x.UserId == HttpContext.Session.GetString("CustomerId")).FirstOrDefault();
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
         }
+
         public ActionResult ForgotPassword()
         {
             return View();
@@ -185,7 +192,7 @@ namespace LaundryOnline.Controllers
         }
 
         // GET: Accounts/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult ChangePassword(int id)
         {
             return View();
         }
@@ -193,18 +200,28 @@ namespace LaundryOnline.Controllers
         // POST: Accounts/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> ChangePassword(ChangePassword change)
         {
-            try
+            var user = _context.Users.Find(change.UserId);
+            if (user != null)
             {
-                // TODO: Add update logic here
+                if (ModelState.IsValid)
+                {
+                    user.Password = CreateMD5(change.Password);
+                    _context.Entry(user).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Details", "Accounts");
+                }
+                else
+                {
+                    return View(change);
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         [HttpGet]

@@ -230,9 +230,21 @@
 
                         </div>
                     </div>
-                    <div>
-                        <a asp-action="Edit" asp-route-id="@Model.OrderId" class="btn btn-warning">Edit</a>
-                        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                    <div class="row no-print">
+                        <div class="col-6">
+                            <a asp-action="Edit" asp-route-id="@Model.OrderId" class="btn btn-warning">Edit</a>
+                            <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                        </div>
+                        <div class="col-6">
+                            <a href="invoice-print.html" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
+                            <a  class="btn btn-success float-right">
+                                <i class="far fa-credit-card"></i> Submit
+                                Payment
+                            </a>
+                            <a asp-action="ExportPdf" asp-area="Admin" asp-controller="Orders" class="btn btn-primary float-right" style="margin-right: 5px;">
+                                <i class="fas fa-download"></i> Generate PDF
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
