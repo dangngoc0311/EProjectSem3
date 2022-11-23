@@ -1,159 +1,173 @@
 ﻿@model X.PagedList.IPagedList<LaundryOnline.Models.Order>
 @using X.PagedList.Mvc.Core;
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<main>
-    <!-- breadcrumb area start -->
-    <div class="tp-page-title-area pt-180 pb-185 position-relative fix" data-background="/assets/img/slider/breadcrumb-bg-1.jpg">
-        <div class="tp-custom-container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="tp-page-title z-index">
-                        <h2 class="breadcrumb-title">My <span>Order</span></h2>
-                        <div class="breadcrumb-menu">
-                            <nav class="breadcrumb-trail breadcrumbs">
-                                <ul class="trail-items">
-                                    <li class="trail-item trail-begin">
-                                        <a asp-controller="Home" asp-action="Index">Home</a>
-                                    </li>
-                                    <li class="trail-item trail-end"><span>Order</span></li>
-                                </ul>
-                            </nav>
+@if (HttpContextAccessor.HttpContext.Session.GetString("CustomerId") != null)
+{
+    <main>
+        <!-- breadcrumb area start -->
+        <div class="tp-page-title-area pt-180 pb-185 position-relative fix" data-background="/assets/img/slider/breadcrumb-bg-1.jpg">
+            <div class="tp-custom-container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="tp-page-title z-index">
+                            <h2 class="breadcrumb-title">My <span>Order</span></h2>
+                            <div class="breadcrumb-menu">
+                                <nav class="breadcrumb-trail breadcrumbs">
+                                    <ul class="trail-items">
+                                        <li class="trail-item trail-begin">
+                                            <a asp-controller="Home" asp-action="Index">Home</a>
+                                        </li>
+                                        <li class="trail-item trail-end"><span>Order</span></li>
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <section class="tp-service-area-three pt-120 pb-90">
-        <div class="container">
-            <div class="cart-area section-space-y-axis-100">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="table-content table-responsive">
-                            <table class="table text-center">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Email Address
-                                        </th>
-                                        <th>
-                                            Contact Number
-                                        </th>
-                                        <th>
-                                            Price
-                                        </th>
-                                        <th>
-                                            Payment Status
-                                        </th>
-                                        <th>
-                                            Order Status
-                                        </th>
-                                        <th>
-                                            CreatedAt
-                                        </th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
+        <section class="tp-service-area-three pt-120 pb-90">
+            <div class="container">
+                <div class="cart-area section-space-y-axis-100">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-content table-responsive">
+                                <table class="table text-center">
+                                    <thead>
                                         <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.EmailAddress)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ContactNumber)
-                                            </td>
-                                            <td>
-                                                @string.Format("{0:C0}", item.Price)
-                                            </td>
-                                            <td>
-                                                @if (item.PaymentStatus == 0)
-                                                {
-                                                    <div class="status">
-                                                        <div class="icon off"> </div>
-                                                        <div class="text text-danger"> Unpaid </div>
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    <div class="status">
-                                                        <div class="icon success"> </div>
-                                                        <div class="text text-success"> Paid </div>
-                                                    </div>
-                                                }
-                                            </td>
-                                            <td>
-                                                @if (item.OrderStatus == 0)
-                                                {
-                                                    <div class="status">
-                                                        <div class="icon warning"> </div>
-                                                        <div class="text text-warning"> Pending </div>
-                                                    </div>
-                                                }
-                                                else if (item.OrderStatus == 1)
-                                                {
-                                                    <div class="status">
-                                                        <div class="icon primary"> </div>
-                                                        <div class="text text-primary"> Shipping </div>
-                                                    </div>
-                                                }
-                                                else if (item.OrderStatus == 2)
-                                                {
-                                                    <div class="status">
-                                                        <div class="icon success"> </div>
-                                                        <div class="text text-success"> Delivered </div>
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    <div class="status">
-                                                        <div class="icon off"> </div>
-                                                        <div class="text text-danger"> Cancel </div>
-                                                    </div>
-                                                }
-                                            </td>
-                                            <td>
-                                                @item.CreatedAt?.ToShortDateString()
-                                            </td>
-                                            <td>
-                                                <a asp-action="Details" asp-route-id="@item.OrderId">Details</a>
-                                                @if (item.OrderStatus == 0)
-                                                {
-                                                    <a asp-action="Delete" asp-route-id="@item.OrderId">Delete</a>
-                                                }
-                                            </td>
+                                            <th>
+                                                Email Address
+                                            </th>
+                                            <th>
+                                                Contact Number
+                                            </th>
+                                            <th>
+                                                Price
+                                            </th>
+                                            <th>
+                                                Payment Status
+                                            </th>
+                                            <th>
+                                                Order Status
+                                            </th>
+                                            <th>
+                                                CreatedAt
+                                            </th>
+                                            <th></th>
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.EmailAddress)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ContactNumber)
+                                                </td>
+                                                <td>
+                                                    @string.Format("{0:C0}", item.Price)
+                                                </td>
+                                                <td>
+                                                    @if (item.PaymentStatus == 0)
+                                                    {
+                                                        <div class="status">
+                                                            <div class="icon off"> </div>
+                                                            <div class="text text-danger"> Unpaid </div>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="status">
+                                                            <div class="icon success"> </div>
+                                                            <div class="text text-success"> Paid </div>
+                                                        </div>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (item.OrderStatus == 0)
+                                                    {
+                                                        <div class="status">
+                                                            <div class="icon warning"> </div>
+                                                            <div class="text text-warning"> Pending </div>
+                                                        </div>
+                                                    }
+                                                    else if (item.OrderStatus == 1)
+                                                    {
+                                                        <div class="status">
+                                                            <div class="icon primary"> </div>
+                                                            <div class="text text-primary"> Shipping </div>
+                                                        </div>
+                                                    }
+                                                    else if (item.OrderStatus == 2)
+                                                    {
+                                                        <div class="status">
+                                                            <div class="icon success"> </div>
+                                                            <div class="text text-success"> Delivered </div>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="status">
+                                                            <div class="icon off"> </div>
+                                                            <div class="text text-danger"> Cancel </div>
+                                                        </div>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @item.CreatedAt?.ToShortDateString()
+                                                </td>
+                                                <td class="d-flex">
+                                                    <a asp-action="Details" asp-route-id="@item.OrderId" class="btn btn-outline-success mr-10">Details</a>
+                                                    @if (item.OrderStatus == 0)
+                                                    {
+                                                        <form asp-action="Edit" asp-route-id="@item.OrderId" asp-route-returnUrl="@Context.Request.Path" class="form">
+                                                            <button type="submit" class="btn btn-danger" onclick="return functionConfirm(this)">
+                                                                Cancel
+                                                            </button>
+                                                        </form>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="basic-pagination mt-10 wow fadeInUp" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="basic-pagination mt-10 wow fadeInUp" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInUp;">
 
-                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
-                                new PagedListRenderOptions
-                                {
-                                    LiElementClasses = new string[] { "" },
-                                    PageClasses = new string[] { "page-numbers" }
-                                }
-                            )
+                                @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+                                    new PagedListRenderOptions
+                                    {
+                                        LiElementClasses = new string[] { "" },
+                                        PageClasses = new string[] { "page-numbers" }
+                                    }
+                                )
 
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</main>
+        </section>
+    </main>
+}
+else
+{
+    HttpContextAccessor.HttpContext.Response.Redirect("/Accounts/Login?returnUrl=" + Context.Request.Path);
+}
 @section Css {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
     <style>
         .status {
             display: flex;
@@ -276,4 +290,30 @@
             font-weight: 700;
         }
     </style>
+}
+@section Scripts {
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        function functionConfirm(event) {
+            swal({
+                title: 'Are you sure?',
+                text: "Are you sure you want to cancel this order?",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'No',
+                cancelButtonClass: 'btn btn-danger',
+                showConfirmButton: true,
+                confirmButtonText: 'Yes',
+                confirmButtonClass: 'btn btn-success'
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    $('.form').submit();
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+            return false;
+        }
+    </script>
 }

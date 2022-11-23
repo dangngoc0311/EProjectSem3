@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="NToastNotify" Version="5.0.6" />
     <PackageReference Include="QRCoder" Version="1.4.3" />
+    <PackageReference Include="Rotativa.AspNetCore" Version="1.2.0" />
     <PackageReference Include="X.PagedList.Mvc.Core" Version="7.5.0" />
   </ItemGroup>
 
@@ -23,6 +24,7 @@
     <Folder Include="wwwroot\images\config\" />
     <Folder Include="wwwroot\images\barcode\" />
     <Folder Include="wwwroot\images\unit\" />
+    <Folder Include="wwwroot\Rotativa\" />
   </ItemGroup>
 
   <ItemGroup>

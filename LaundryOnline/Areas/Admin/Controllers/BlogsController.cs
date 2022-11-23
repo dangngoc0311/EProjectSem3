@@ -10,6 +10,7 @@ using NToastNotify;
 using X.PagedList;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace LaundryOnline.Areas.Admin.Controllers
 {
@@ -74,9 +75,7 @@ namespace LaundryOnline.Areas.Admin.Controllers
         {
             blog.Status = 1;
             blog.CreatedAt = DateTime.UtcNow.Date;
-            blog.UserId = "f44d63ce-2cae-4132-a01b-14b4911475e1";
-
-
+            blog.UserId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (ModelState.IsValid)
             {
                 var files = HttpContext.Request.Form.Files;

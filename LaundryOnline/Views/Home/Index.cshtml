@@ -357,19 +357,19 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="tp-blog mb-30 wow fadeInUp" data-wow-delay=".4s">
                             <div class="tp-blog-img mb-25">
-                                <a href="blog-details.html"><img width="350" height="316" src="~/images/blogs/@item.Image" class="img-fluid" alt="img not found"></a>
+                                <a asp-controller="Blogs" asp-action="Details" asp-route-id="@item.BlogId"><img width="350" height="316" src="~/images/blogs/@item.Image" class="img-fluid" alt="img not found"></a>
                                 
                             </div>
                             <div class="tp-blog-text">
                                 <div class="tp-blog-meta mb-10">
                                     <ul>
-                                        <li><a href="blog-details.html">// By @item.User.FullName</a></li>
-                                        <li><a href="blog-details.html">| @item.CreatedAt</a></li>
+                                        <li><a asp-controller="Blogs" asp-action="Details" asp-route-id="@item.BlogId">// By @item.User.FullName</a></li>
+                                        <li><a asp-controller="Blogs" asp-action="Details" asp-route-id="@item.BlogId">| @item.CreatedAt</a></li>
                                     </ul>
                                 </div>
-                                <h4 class="tp-blog-title mb-20"><a href="blog-details.html">@item.Title</a></h4>
+                                <h4 class="tp-blog-title mb-20"><a asp-controller="Blogs" asp-action="Details" asp-route-id="@item.BlogId">@item.Title</a></h4>
                                 <div class="tp-blog-link">
-                                    <a href="blog-details.html"><i class="flaticon-enter"></i> Continue Reading</a>
+                                    <a asp-controller="Blogs" asp-action="Details" asp-route-id="@item.BlogId"><i class="flaticon-enter"></i> Continue Reading</a>
                                 </div>
                             </div>
                         </div>

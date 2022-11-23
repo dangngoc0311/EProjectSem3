@@ -95,13 +95,14 @@ namespace LaundryOnline.Controllers
             return View(forgotPasswordModel);
         }
 
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
+            ViewData["returnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login(LoginModel model)
+        public IActionResult Login(LoginModel model,string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -112,16 +113,27 @@ namespace LaundryOnline.Controllers
                 var checkAccount = _context.Users.FirstOrDefault(u => u.EmailAddress == model.EmailAddress);
                 if (checkAccount != null)
                 {
-                    if (checkAccount.Password == CreateMD5(model.Password))
+                    if (checkAccount.Status == 1)
                     {
-                        HttpContext.Session.SetString("CustomerLogin", checkAccount.UserName);
-                        HttpContext.Session.SetString("CustomerId", checkAccount.UserId);
-                        _toastNotification.AddSuccessToastMessage("Login successfully");
-                        return RedirectToAction("Index", "Home");
+                        if (checkAccount.Password == CreateMD5(model.Password))
+                        {
+                            HttpContext.Session.SetString("CustomerLogin", checkAccount.UserName);
+                            HttpContext.Session.SetString("CustomerId", checkAccount.UserId);
+                            _toastNotification.AddSuccessToastMessage("Login successfully");
+                            if (Url.IsLocalUrl(returnUrl))
+                                return Redirect(returnUrl);
+                            else
+                                return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            _toastNotification.AddErrorToastMessage("Wrong password");
+                            return View(model);
+                        }
                     }
                     else
                     {
-                        _toastNotification.AddErrorToastMessage("Wrong password");
+                        _toastNotification.AddErrorToastMessage("Account has been locked");
                         return View(model);
                     }
                 }
@@ -129,7 +141,6 @@ namespace LaundryOnline.Controllers
                 {
                     _toastNotification.AddErrorToastMessage("Account not exists");
                     return View(model);
-
                 }
             }
         }
@@ -145,6 +156,7 @@ namespace LaundryOnline.Controllers
         public async Task<ActionResult> Register(User user)
         {
             user.Role = 1;
+            user.Status = 1;
             if (ModelState.IsValid)
             {
                 if (AccountEmailExists(user.EmailAddress))
