@@ -95,7 +95,8 @@
                                     <li class="menu-item-has-children">
                                         <a href="#">@HttpContextAccessor.HttpContext.Session.GetString("CustomerLogin")</a>
                                         <ul class="sub-menu">
-                                            <li><a href="about.html">My Account</a></li>
+                                            <li><a asp-controller="Accounts" asp-action="Details">My Account</a></li>
+                                            <li><a asp-controller="Accounts" asp-action="ChangePassword">Change Password</a></li>
                                             <li><a asp-controller="Orders" asp-action="Index">My Order</a></li>
                                             <li><a asp-controller="Accounts" asp-action="Logout">Logout</a></li>
                                         </ul>
