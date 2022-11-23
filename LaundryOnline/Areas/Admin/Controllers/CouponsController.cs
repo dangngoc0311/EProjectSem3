@@ -35,6 +35,21 @@ namespace LaundryOnline.Areas.Admin.Controllers
                 coupons = coupons.Where(j => j.CouponName.Contains(name));
             }
 
+            foreach (var item in coupons)
+            {
+                if (item.ExpirationDate < DateTime.UtcNow.Date)
+                {
+                    item.Status = 0;
+                    _context.Entry(item).State = EntityState.Modified;
+                }
+                else
+                {
+                    item.Status = 1;
+                    _context.Entry(item).State = EntityState.Modified;
+                }
+            }
+            await _context.SaveChangesAsync();
+
             return View(await coupons.ToPagedListAsync(page, pageSize));
         }
 
@@ -158,7 +173,7 @@ namespace LaundryOnline.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var coupon = await _context.Coupons.FindAsync(id);
-           
+
             try
             {
                 _context.Coupons.Remove(coupon);

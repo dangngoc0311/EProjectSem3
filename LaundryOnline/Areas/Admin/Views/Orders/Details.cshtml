@@ -197,10 +197,11 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-6">
-                                <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.QrCode))" width="200" />
+                            <div class="col-7 d-flex">
+                                <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.QrCode))" width="150" />
+                                <img src="@String.Format("data:image/png;base64,{0}", Convert.ToBase64String(ViewBag.Barcode))" width="400" style="height: 120px;margin-top: 16px; margin-left:20px;" />
                             </div>
-                            <div class="col-6">
+                            <div class="col-5">
                                 <p class="lead">Amount Due @Model.UpdatedAt?.ToShortDateString()</p>
                                 <div class="table-responsive">
                                     <table class="table">
@@ -229,21 +230,21 @@
                             </div>
 
                         </div>
-                    </div>
-                    <div class="row no-print">
-                        <div class="col-6">
-                            <a asp-action="Edit" asp-route-id="@Model.OrderId" class="btn btn-warning">Edit</a>
-                            <a asp-action="Index" class="btn btn-primary">Back to List</a>
-                        </div>
-                        <div class="col-6">
-                            <a href="invoice-print.html" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
-                            <a  class="btn btn-success float-right">
-                                <i class="far fa-credit-card"></i> Submit
-                                Payment
-                            </a>
-                            <a asp-action="ExportPdf" asp-area="Admin" asp-controller="Orders" class="btn btn-primary float-right" style="margin-right: 5px;">
-                                <i class="fas fa-download"></i> Generate PDF
-                            </a>
+                        <div class="row no-print">
+                            <div class="col-7">
+                            </div>
+                            <div class="col-5 d-flex">
+                                <a asp-controller="Orders" asp-action="ViewAsPDF" asp-route-id="@Model.OrderId" class="btn btn-outline-success"><i class="fas fa-print"></i> View Bill</a>
+                                @if (Model.OrderStatus == 0)
+                                {
+                                    <form asp-action="Edit" asp-controller="Orders" asp-route-id="@Model.OrderId" method="get" class="form">
+                                        <button type="submit" class="btn btn-danger float-right" onclick="return functionConfirm(this)" style="margin-left: 5px;">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                }
+                                <a asp-action="Index" class="btn btn-primary" style="margin-left: 5px;">Back to List</a>
+                            </div>
                         </div>
                     </div>
                 </div>

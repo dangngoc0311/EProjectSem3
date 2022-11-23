@@ -11,6 +11,8 @@ using QRCoder;
 using System.Drawing;
 using System.IO;
 using NToastNotify;
+using BarcodeLib;
+using Rotativa.AspNetCore;
 
 namespace LaundryOnline.Areas.Admin.Controllers
 {
@@ -63,6 +65,10 @@ namespace LaundryOnline.Areas.Admin.Controllers
             QRCoder.QRCode qrCode = new QRCoder.QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(20);
             ViewBag.QrCode = BitmapToBytes(qrCodeImage);
+
+            Barcode barcode = new Barcode();
+            Image img = barcode.Encode(TYPE.CODE128, order.OrderId, Color.Black, Color.White, 650, 80);
+            ViewBag.Barcode = ConvertImageToByte(img);
             return View(order);
         }
 
@@ -144,43 +150,33 @@ namespace LaundryOnline.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/Orders/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.Orders
-                .Include(o => o.Coupon)
-                .Include(o => o.Payment)
-                .Include(o => o.User)
-                .FirstOrDefaultAsync(m => m.OrderId == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return View(order);
-        }
-
-        // POST: Admin/Orders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var order = await _context.Orders.FindAsync(id);
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
         private bool OrderExists(string id)
         {
             return _context.Orders.Any(e => e.OrderId == id);
         }
         private static Byte[] BitmapToBytes(Bitmap img)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return stream.ToArray();
+            }
+        }
+        public IActionResult ViewAsPDF(string id)
+        {
+            var order = _context.Orders
+              .Include(o => o.Coupon)
+              .Include(o => o.Payment)
+              .Include(o => o.User)
+              .FirstOrDefault(m => m.OrderId == id);
+            ViewData["OrderDetail"] = _context.OrderItems.Include(o => o.Unit).Where(o => o.OrderId == order.OrderId).ToList();
+            Barcode barcode = new Barcode();
+            Image img = barcode.Encode(TYPE.CODE128, order.OrderId, Color.Black, Color.White, 650, 80);
+            ViewData["Barcode"] = ConvertImageToByte(img);
+            return new ViewAsPdf(order, ViewData);
+        }
+        private static Byte[] ConvertImageToByte(Image img)
         {
             using (MemoryStream stream = new MemoryStream())
             {

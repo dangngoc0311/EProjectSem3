@@ -48,7 +48,7 @@
                     </div>
                     <div class="tp-header-top-info-single">
                         <div class="tp-header-top-info-single-btn">
-                            @if (HttpContextAccessor.HttpContext.Session.GetString("CustomerLogin ") != null)
+                            @if (HttpContextAccessor.HttpContext.Session.GetString("CustomerLogin") != null)
                             {
                                 <a asp-controller="Accounts" asp-action="Logout" class="yellow-btn"><i class="flaticon-enter"></i> Logout</a>
                             }
@@ -79,9 +79,6 @@
                                 <li class="">
                                     <a asp-controller="Home" asp-action="Index">Home</a>
                                 </li>
-                                <li class="">
-                                    <a asp-controller="About" asp-action="Index">About</a>
-                                </li>
                                 <li class="menu-item-has-children">
                                     <a asp-controller="Services" asp-action="Index">Services</a>
                                     @await Component.InvokeAsync("Services")
@@ -90,6 +87,9 @@
                                     <a asp-controller="Blogs" asp-action="Index">Blogs</a>
                                 </li>
                                 <li><a asp-controller="Contact" asp-action="Index">Contact</a></li>
+                                <li class="">
+                                    <a asp-controller="Cart" asp-action="Index">Cart</a>
+                                </li>
                                 @if (HttpContextAccessor.HttpContext.Session.GetString("CustomerLogin") != null)
                                 {
                                     <li class="menu-item-has-children">

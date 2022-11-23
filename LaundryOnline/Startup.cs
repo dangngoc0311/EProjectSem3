@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using LaundryOnline.Models;
 using NToastNotify;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Rotativa.AspNetCore;
 
 namespace LaundryOnline
 {
@@ -105,6 +106,7 @@ namespace LaundryOnline
                     template: "{controller=Home}/{action=Index}/{id?}");
 
             });
+            RotativaConfiguration.Setup(env);
         }
     }
 }

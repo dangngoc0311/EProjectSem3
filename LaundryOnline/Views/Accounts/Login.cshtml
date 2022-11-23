@@ -16,9 +16,8 @@
                         </div>
                         <div class="form-container">
                             <p class="title">Login</p>
-                            <form asp-action="Login" class="signup-form">
+                            <form asp-action="Login" class="signup-form" asp-route-returnUrl="@ViewData["returnUrl"]">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
                                 <div class="form-item">
                                     <input asp-for="EmailAddress" placeholder="Email Address" type="email">
                                     <span asp-validation-for="EmailAddress" class="text-danger"></span>

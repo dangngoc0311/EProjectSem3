@@ -15,9 +15,13 @@ using System.IO;
 using Microsoft.AspNetCore.Mvc.Filters;
 using BarcodeLib;
 using System.Drawing;
-using ZXing.QrCode.Internal;
 using QRCoder;
 using X.PagedList;
+using ZXing.ImageSharp;
+using ZXing;
+using ZXing.Common;
+using Rotativa.AspNetCore;
+using Rotativa.AspNetCore.Options;
 
 namespace LaundryOnline.Controllers
 {
@@ -54,6 +58,10 @@ namespace LaundryOnline.Controllers
             return View(await laundryOnlineContext.ToPagedListAsync(page, pageSize));
         }
 
+        public ActionResult CheckBill()
+        {
+            return View();
+        }
         // GET: Orders/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -73,11 +81,18 @@ namespace LaundryOnline.Controllers
             {
                 return NotFound();
             }
+
+            // Generate QRcode
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(order.OrderId, QRCodeGenerator.ECCLevel.Q);
             QRCoder.QRCode qrCode = new QRCoder.QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(20);
             ViewBag.QrCode = BitmapToBytes(qrCodeImage);
+
+            // Generate Barcode
+            Barcode barcode = new Barcode();
+            Image img = barcode.Encode(TYPE.CODE128, order.OrderId, Color.Black, Color.White, 650, 80);
+            ViewBag.Barcode = ConvertImageToByte(img);
             return View(order);
         }
 
@@ -175,93 +190,68 @@ namespace LaundryOnline.Controllers
         }
 
         // GET: Orders/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string id, string returnUrl)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
             var order = await _context.Orders.FindAsync(id);
             if (order == null)
             {
                 return NotFound();
             }
-            ViewData["CouponId"] = new SelectList(_context.Coupons, "CouponId", "CouponId", order.CouponId);
-            ViewData["PaymentId"] = new SelectList(_context.Payments, "PaymentId", "PaymentId", order.PaymentId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", order.UserId);
-            return View(order);
-        }
-
-        // POST: Orders/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("OrderId,FullName,EmailAddress,ContactNumber,Address,Price,Note,PaymentStatus,OrderStatus,CreatedAt,UpdatedAt,UserId,PaymentId,CouponId")] Order order)
-        {
-            if (id != order.OrderId)
+            if (order.OrderStatus == 0)
             {
-                return NotFound();
-            }
+                order.OrderStatus = 3;
+                order.UpdatedAt = DateTime.UtcNow.Date;
+                _context.Entry(order).State = EntityState.Modified;
+                EmailModel model = new EmailModel()
+                {
+                    Subject = "Cancel Order",
+                    To = order.EmailAddress
+                };
 
-            if (ModelState.IsValid)
-            {
-                try
+                using (MailMessage mm = new MailMessage(model.From, model.To))
                 {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.OrderId))
+                    mm.Subject = model.Subject;
+                    mm.Body = BodyCancelOrderMail(order);
+                    mm.IsBodyHtml = true;
+                    using (SmtpClient smtp = new SmtpClient())
                     {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
+                        smtp.Host = "smtp.gmail.com";
+                        smtp.EnableSsl = true;
+                        NetworkCredential NetworkCred = new NetworkCredential(model.From, model.Password);
+                        smtp.UseDefaultCredentials = false;
+                        smtp.EnableSsl = true;
+                        smtp.Credentials = NetworkCred;
+                        smtp.Port = 587;
+                        smtp.Send(mm);
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                _toastNotification.AddSuccessToastMessage("Your order has been cancelled");
+                await _context.SaveChangesAsync();
             }
-            ViewData["CouponId"] = new SelectList(_context.Coupons, "CouponId", "CouponId", order.CouponId);
-            ViewData["PaymentId"] = new SelectList(_context.Payments, "PaymentId", "PaymentId", order.PaymentId);
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", order.UserId);
-            return View(order);
-        }
-
-        // GET: Orders/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
+            if (HttpContext.Session.GetString("CustomerId") != null)
             {
-                return NotFound();
-            }
+                if (Url.IsLocalUrl(returnUrl))
 
-            var order = await _context.Orders
-                .Include(o => o.Coupon)
-                .Include(o => o.Payment)
-                .Include(o => o.User)
-                .FirstOrDefaultAsync(m => m.OrderId == id);
-            if (order == null)
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Details", new { id = id });
+
+                }
+            }
+            else
             {
-                return NotFound();
+                return RedirectToAction("Details", new { id = id });
             }
-
-            return View(order);
         }
 
-        // POST: Orders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var order = await _context.Orders.FindAsync(id);
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+
 
         private bool OrderExists(string id)
         {
@@ -289,7 +279,37 @@ namespace LaundryOnline.Controllers
             body = body.Replace("{{FullName}}", order.FullName);
             body = body.Replace("{{Phone}}", order.ContactNumber);
             body = body.Replace("{{Address}}", order.Address);
+            body = body.Replace("{{OrderId}}", order.OrderId);
             body = body.Replace("{{Unit}}", unit);
+            body = body.Replace("{{ToTalPrice}}", string.Format("{0:C}", order.Price));
+            return body;
+        }
+        public string BodyCancelOrderMail(Order order)
+        {
+            string body = string.Empty;
+            string unit = "";
+
+            using (StreamReader reader = new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "Views\\Shared\\Mail", "CancelOrder.cshtml")))
+            {
+                body = reader.ReadToEnd();
+            }
+            List<OrderItem> listOrderItems = _context.OrderItems.Include(i => i.Order).Include(i => i.Unit).Where(o => o.OrderId == order.OrderId).ToList();
+            foreach (var item in listOrderItems)
+            {
+                unit += "<tr>";
+                unit += "<td width = '75 % ' align='left' style='font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px; '>";
+                unit += item.Unit.UnitName + " (" + item.Quantity + ") </td>";
+                unit += "<td width = '25 % ' align='left' style='font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px; '>";
+                unit += string.Format("{0:C}", item.PriceUnit) + "</td>";
+                unit += "</tr>";
+            }
+            body = body.Replace("{{CreatedAt}}", order.CreatedAt?.ToShortDateString());
+            body = body.Replace("{{UpdatedAt}}", order.UpdatedAt?.ToShortDateString());
+            body = body.Replace("{{FullName}}", order.FullName);
+            body = body.Replace("{{Phone}}", order.ContactNumber);
+            body = body.Replace("{{Address}}", order.Address);
+            body = body.Replace("{{Unit}}", unit);
+            body = body.Replace("{{OrderId}}", order.OrderId);
             body = body.Replace("{{ToTalPrice}}", string.Format("{0:C}", order.Price));
             return body;
         }
@@ -300,6 +320,27 @@ namespace LaundryOnline.Controllers
                 img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
                 return stream.ToArray();
             }
+        }
+        private static Byte[] ConvertImageToByte(Image img)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return stream.ToArray();
+            }
+        }
+        public IActionResult ViewAsPDF(string id)
+        {
+            var order = _context.Orders
+              .Include(o => o.Coupon)
+              .Include(o => o.Payment)
+              .Include(o => o.User)
+              .FirstOrDefault(m => m.OrderId == id);
+            ViewData["OrderDetail"] = _context.OrderItems.Include(o => o.Unit).Where(o => o.OrderId == order.OrderId).ToList();
+            Barcode barcode = new Barcode();
+            Image img = barcode.Encode(TYPE.CODE128, order.OrderId, Color.Black, Color.White, 650, 80);
+            ViewData["Barcode"] = ConvertImageToByte(img);
+            return new ViewAsPdf(order, ViewData);
         }
     }
 }
