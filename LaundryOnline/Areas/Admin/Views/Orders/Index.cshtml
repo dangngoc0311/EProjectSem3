@@ -54,6 +54,9 @@
                 <input class="form-control" name="name" placeholder="Search">
             </div>
             <button type="submit" class="btn btn-icon btn-default mr-1"><i class="fas fa-search"></i></button>
+            <a asp-action="ViewAsPDFList" asp-area="Admin" asp-controller="Orders">
+                <i class="fas fa-print btn btn-icon btn-success mr-2"></i>
+            </a>
         </form>
     </div>
 </div>
@@ -90,7 +93,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
+                        <td class="text-capitalize">
                             @Html.DisplayFor(modelItem => item.FullName)
                         </td>
                         <td>
@@ -105,12 +108,10 @@
                         <td>
                             @if (item.PaymentStatus == 0)
                             {
-                                <a asp-action="ChangePayment" asp-controller="Orders" asp-area="Admin" asp-route-id="@item.OrderId">
                                     <div class="status">
                                         <div class="icon off"> </div>
                                         <div class="text text-danger"> Unpaid </div>
                                     </div>
-                                </a>
                             }
                             else
                             {

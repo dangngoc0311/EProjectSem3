@@ -179,36 +179,20 @@ namespace LaundryOnline.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
-            var unit = await _context.Units
-                .Include(u => u.Service)
-                .FirstOrDefaultAsync(m => m.UnitId == id);
-            if (unit == null)
-            {
-                return NotFound();
-            }
-
-            return View(unit);
-        }
-
-        // POST: Admin/Units/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
             var unit = await _context.Units.FindAsync(id);
             try
             {
                 _context.Units.Remove(unit);
                 await _context.SaveChangesAsync();
-                _toastNotification.AddSuccessToastMessage("Delete service " + unit.UnitName + " successfully");
+                _toastNotification.AddSuccessToastMessage("Delete service successfully");
             }
             catch (Exception)
             {
-                _toastNotification.AddErrorToastMessage("Delete service " + unit.UnitName + " failed");
+                _toastNotification.AddErrorToastMessage("Delete service failed");
             }
             return RedirectToAction(nameof(Index));
         }
+
 
         private bool UnitExists(string id)
         {

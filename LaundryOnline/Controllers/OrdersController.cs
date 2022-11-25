@@ -182,7 +182,7 @@ namespace LaundryOnline.Controllers
                 HttpContext.Session.Remove("Coupon");
                 HttpContext.Session.Remove("ShoppingCart");
                 _toastNotification.AddSuccessToastMessage("Order successfully!! Please check your mail");
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", new { id = order.OrderId });
             }
 
 

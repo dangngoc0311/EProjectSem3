@@ -64,7 +64,7 @@
                             @Html.DisplayFor(modelItem => item.CouponName)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Discount)
+                            @string.Format("{0:C0}", item.Discount)
                         </td>
                         <td>
                             @if (item.Status == 0)

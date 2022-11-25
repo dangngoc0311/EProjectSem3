@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\images\barcode\**" />
+    <Content Remove="wwwroot\images\barcode\**" />
+    <EmbeddedResource Remove="wwwroot\images\barcode\**" />
+    <None Remove="wwwroot\images\barcode\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BarCode" Version="2022.10.9871" />
     <PackageReference Include="BarcodeLib" Version="2.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -21,8 +28,6 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="wwwroot\images\banner\" />
     <Folder Include="wwwroot\images\blogs\" />
-    <Folder Include="wwwroot\images\config\" />
-    <Folder Include="wwwroot\images\barcode\" />
     <Folder Include="wwwroot\images\unit\" />
     <Folder Include="wwwroot\Rotativa\" />
   </ItemGroup>

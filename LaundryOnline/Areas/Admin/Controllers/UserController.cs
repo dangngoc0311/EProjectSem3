@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using BarcodeLib;
 using LaundryOnline.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NToastNotify;
+using Rotativa.AspNetCore;
 using X.PagedList;
 
 namespace LaundryOnline.Areas.Admin.Controllers
@@ -27,7 +31,7 @@ namespace LaundryOnline.Areas.Admin.Controllers
         {
             page = page ?? 1;
             int pageSize = 3;
-            var users = _context.Users.AsQueryable();
+            var users = _context.Users.Where(x => x.Role == 1).AsQueryable();
             if (!string.IsNullOrEmpty(name))
             {
                 users = users.Where(j => j.UserName.Contains(name) || j.FullName.Contains(name) || j.EmailAddress.Contains(name));
@@ -72,6 +76,20 @@ namespace LaundryOnline.Areas.Admin.Controllers
                 return NotFound();
             }
             return View(user);
+        }
+
+        public IActionResult ViewAsPDF()
+        {
+            List<User> users = _context.Users.ToList(); 
+            return new ViewAsPdf(users, ViewData);
+        }
+        private static Byte[] ConvertImageToByte(Image img)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                return stream.ToArray();
+            }
         }
     }
 }

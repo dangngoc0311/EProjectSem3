@@ -32,7 +32,7 @@
             </div>
             <div class="col-xxl-4 col-xl-2">
                 <div class="header-logo text-center">
-                    <a asp-controller="Home" asp-action="Index"><img src="~/assets/img/logo/logo-white.png" class="img-fluid" alt=""></a>
+                    <a asp-controller="Home" asp-action="Index"><img src="~/images/config/logo.png" class="img-fluid" alt=""></a>
                 </div>
             </div>
             <div class="col-xxl-4 col-xl-5">
@@ -104,6 +104,9 @@
                                 }
                                 else
                                 {
+                                    <li class="">
+                                        <a asp-controller="Orders" asp-action="CheckBill">Check Bill</a>
+                                    </li>
                                     <li class="menu-item-has-children">
                                         <a asp-controller="Accounts" asp-action="Login">Login</a>
                                         <ul class="sub-menu">

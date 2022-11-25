@@ -23,6 +23,9 @@
                 <input class="form-control" name="name" placeholder="Search">
             </div>
             <button type="submit" class="btn btn-icon btn-default mr-1"><i class="fas fa-search"></i></button>
+            <a asp-action="ViewAsPDF" asp-area="Admin">
+                <i class="fas fa-print btn btn-icon btn-success mr-2"></i>
+            </a>
         </form>
         
     </div>
@@ -59,7 +62,7 @@
                 @foreach (var item in Model)
                 {
                 <tr>
-                    <td>
+                    <td class="text-capitalize">
                         @Html.DisplayFor(modelItem => item.FullName)
                     </td>
                     <td>
@@ -68,7 +71,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.ContactNumber)
                     </td>
-                    <td>
+                    <td class="text-capitalize">
                         @Html.DisplayFor(modelItem => item.Address)
                     </td>
                     <td>
@@ -102,7 +105,6 @@
                             <a asp-action="Edit" asp-area="Admin" asp-route-id="@item.UserId">
                                 <i class="anticon anticon-unlock btn btn-icon btn-success mr-2"></i>
                             </a>
-
                         </td>
                     }
                     

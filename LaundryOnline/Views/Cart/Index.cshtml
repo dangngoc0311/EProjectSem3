@@ -76,28 +76,6 @@
                                                     </a>
                                                 </td>
                                             </tr>
-                                            @*<tr>
-                                                    <td class="product-name"><a href="javascript:void(0)">@item.UnitName</a></td>
-                                                    <td class="product-price"><span class="amount">@string.Format("{0:C}", item.UnitPrice)</span></td>
-                                                    <td class="quantity">
-                                                        <a onclick="increase(@item.UnitId,@count)" class="btn">
-                                                            <i class="fal fa-minus"></i>
-                                                        </a>
-                                                        <span style="margin: auto 7px;font-weight: 500;font-size: 19px;" class="inc_count">
-                                                            @item.Quantity
-                                                        </span>
-                                                        <span onclick="increase(@count)" data-id="@item.UnitId" style="cursor:pointer" class="btn">
-                                                            <i class="fal fa-plus"></i>
-                                                        </span>
-
-                                                    </td>
-                                                    <td class="product-subtotal"><span class="amount">@string.Format("{0:C}", item.UnitPrice * item.Quantity)</span></td>
-                                                    <td class="product_remove">
-                                                        <a asp-controller="Cart" asp-action="RemoveItemCart" asp-route-id="@item.UnitId" class="btn">
-                                                            <i class="far fa-trash text-danger"></i>
-                                                        </a>
-                                                    </td>
-                                                </tr>*@
                                         }
                                     </tbody>
                                 </table>
@@ -146,14 +124,21 @@
                                             <li>Subtotal <span> @string.Format("{0:C}", Model.Sum(a => a.UnitPrice * a.Quantity))</span></li>
                                             @if (HttpContextAccessor.HttpContext.Session.GetString("Coupon") != null)
                                             {
-                                            <li>Total <span>@string.Format("{0:C}", (Model.Sum(a => a.UnitPrice * a.Quantity)) - ViewBag.Coupon.Discount)</span></li>
+                                                <li>Total <span>@string.Format("{0:C}", (Model.Sum(a => a.UnitPrice * a.Quantity)) - ViewBag.Coupon.Discount)</span></li>
                                             }
                                             else
                                             {
                                                 <li>Total <span>@string.Format("{0:C}", Model.Sum(a => a.UnitPrice * a.Quantity))</span></li>
                                             }
                                         </ul>
-                                        <a asp-controller="Orders" asp-action="Create">Proceed to checkout</a>
+                                        @if (HttpContextAccessor.HttpContext.Session.GetString("ShoppingCart") != null)
+                                        {
+                                            <a asp-controller="Orders" asp-action="Create">Proceed to checkout</a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="Services" asp-action="Index">Please choose a product</a>
+                                        }
                                     </div>
                                 </div>
                             </div>
