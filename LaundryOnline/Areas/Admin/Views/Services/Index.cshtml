@@ -75,11 +75,9 @@
                             <a asp-action="Details" asp-area="Admin" asp-route-id="@item.ServiceId">
                                 <i class="anticon anticon-info-circle btn btn-icon btn-primary mr-2"></i>
                             </a>
-                            <form asp-action="Delete" asp-route-id="@item.ServiceId" method="post">
-                                <button type="submit" class="btn btn-icon btn-danger" onclick="return functionConfirm(this)">
-                                    <i class="anticon anticon-delete btn btn-icon btn-danger"></i>
-                                </button>
-                            </form>
+                            <a class="btn btn-icon btn-danger" asp-action="Delete" asp-area="Admin" asp-route-id="@item.ServiceId">
+                                <i class="anticon anticon-delete btn btn-icon btn-danger"></i>
+                            </a>
                         </td>
                     </tr>
                 }
@@ -114,30 +112,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts {
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-    <script type="text/javascript">
-        function functionConfirm(event) {
-            swal({
-                title: 'Are you sure?',
-                text: "You will not be able to recover this item",
-                type: 'warning',
-                showCancelButton: true,
-                cancelButtonText: 'No',
-                cancelButtonClass: 'btn btn-danger',
-                showConfirmButton: true,
-                confirmButtonText: 'Yes',
-                confirmButtonClass: 'btn btn-success'
-            }, function (isConfirm) {
-                if (isConfirm) {
-                    $('form').submit();
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-            return false;
-        }
-    </script>
-}

@@ -29,7 +29,21 @@ namespace LaundryOnline.Areas.Admin.Controllers
             ViewBag.ListOrders = _context.Orders.OrderByDescending(o => o.CreatedAt).Take(6);
             ViewBag.Charts = from i in _context.Orders
                              group i by i.CreatedAt.Value.Month into grp
-                             select new Charts{ Month = grp.Key, Count = grp.Sum(i => i.Price) };
+                             select new Charts { Month = grp.Key, Count = grp.Sum(i => i.Price) };
+
+            foreach (var item in _context.Orders)
+            {
+                if (item.OrderStatus == 2)
+                {
+                    item.PaymentStatus = 1;
+                    _context.Entry(item).State = EntityState.Modified;
+                }
+                else
+                {
+                    item.PaymentStatus = 0;
+                    _context.Entry(item).State = EntityState.Modified;
+                }
+            }
             return View();
         }
     }

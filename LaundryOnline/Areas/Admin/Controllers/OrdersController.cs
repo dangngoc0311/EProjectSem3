@@ -129,26 +129,26 @@ namespace LaundryOnline.Areas.Admin.Controllers
             }
         }
 
-        public async Task<IActionResult> ChangePayment(string id)
-        {
-            var order = _context.Orders.Find(id);
-            if (order != null)
-            {
-                if (order.PaymentStatus == 0)
-                {
-                    order.PaymentStatus = 1;
-                    _context.Entry(order).State = EntityState.Modified;
-                    _toastNotification.AddSuccessToastMessage("Change payment status successfully");
-                    await _context.SaveChangesAsync();
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            else
-            {
-                _toastNotification.AddErrorToastMessage("Change payment status  failed");
-                return NotFound();
-            }
-        }
+        //public async Task<IActionResult> ChangePayment(string id)
+        //{
+        //    var order = _context.Orders.Find(id);
+        //    if (order != null)
+        //    {
+        //        if (order.PaymentStatus == 0)
+        //        {
+        //            order.PaymentStatus = 1;
+        //            _context.Entry(order).State = EntityState.Modified;
+        //            _toastNotification.AddSuccessToastMessage("Change payment status successfully");
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    else
+        //    {
+        //        _toastNotification.AddErrorToastMessage("Change payment status  failed");
+        //        return NotFound();
+        //    }
+        //}
 
 
         private bool OrderExists(string id)
@@ -183,6 +183,12 @@ namespace LaundryOnline.Areas.Admin.Controllers
                 img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
                 return stream.ToArray();
             }
+        }
+        public IActionResult ViewAsPDFList()
+        {
+            List<Order> order = _context.Orders.ToList();
+            
+            return new ViewAsPdf(order);
         }
     }
 }

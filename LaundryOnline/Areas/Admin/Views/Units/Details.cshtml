@@ -19,7 +19,7 @@
 <div class="card">
     <div class="card-body">
         <h4>
-            Detail Service
+            Detail Unit
         </h4>
         <div class="m-t-25">
             <div class="row">
@@ -41,7 +41,7 @@
                             @Html.DisplayNameFor(model => model.UnitPrice)
                         </dt>
                         <dd>
-                            @Html.DisplayFor(model => model.UnitPrice)
+                            @string.Format("{0:C0}", Model.UnitPrice)
                         </dd>
                         <dt>
                             @Html.DisplayNameFor(model => model.Service)

@@ -222,6 +222,7 @@ namespace LaundryOnline.Controllers
                     user.Password = CreateMD5(change.Password);
                     _context.Entry(user).State = EntityState.Modified;
                     await _context.SaveChangesAsync();
+                    _toastNotification.AddSuccessToastMessage("Change password account successfully");
                     return RedirectToAction("Details", "Accounts");
                 }
                 else
@@ -241,6 +242,7 @@ namespace LaundryOnline.Controllers
         {
             HttpContext.Session.Remove("CustomerLogin");
             HttpContext.Session.Remove("CustomerId");
+            HttpContext.Session.Remove("Coupon");
 
             return RedirectToAction("Login", "Accounts");
         }

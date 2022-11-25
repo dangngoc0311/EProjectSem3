@@ -176,12 +176,10 @@
                                         <td>
                                             @if (item.PaymentStatus == 0)
                                             {
-                                                <a asp-action="ChangePayment" asp-controller="Orders" asp-area="Admin" asp-route-id="@item.OrderId">
                                                     <div class="status">
                                                         <div class="icon off"> </div>
                                                         <div class="text text-danger"> Unpaid </div>
                                                     </div>
-                                                </a>
                                             }
                                             else
                                             {

@@ -134,6 +134,7 @@ namespace LaundryOnline.Controllers
         public IActionResult Clear()
         {
             HttpContext.Session.Remove("ShoppingCart");
+            HttpContext.Session.Remove("Coupon");
             _toastNotification.AddSuccessToastMessage("Clear cart successfully");
             return RedirectToAction(nameof(Index));
         }
