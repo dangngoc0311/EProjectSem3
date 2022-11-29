@@ -301,8 +301,8 @@ namespace LaundryOnline.Migrations
               columns: new[] { "CouponId", "CouponName", "Discount", "Status", "CreatedAt","ExpirationDate" },
               values: new object[,]{
                     { "00daae60-ae37-46fb-82dd-3873ef93d09d","Christmas Discount",1.0,1,"2022-11-25 00:00:00.0000000","2022-12-28 00:00:00.0000000"},
-                    { "50f665f5-70eb-4ae9-a0c6-8f6e0f282e50","Winter promotion",2.0,1,"2022-11-25 00:00:00.0000000","2022-12-30 00:00:00.0000000"},
-                    { "e4e1d0cd-f636-4567-bfb2-40b244c504e5","New Member",2.0,1,"2022-11-25 00:00:00.0000000","2023-12-28 00:00:00.0000000"}
+                    { "50f665f5-70eb-4ae9-a0c6-8f6e0f282e50","Winter promotion",1.0,1,"2022-11-25 00:00:00.0000000","2022-12-30 00:00:00.0000000"},
+                    { "e4e1d0cd-f636-4567-bfb2-40b244c504e5","New Member",1.0,1,"2022-11-25 00:00:00.0000000","2023-12-28 00:00:00.0000000"}
                });
 
             //Insert data Payment

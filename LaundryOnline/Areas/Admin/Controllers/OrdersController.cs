@@ -38,6 +38,19 @@ namespace LaundryOnline.Areas.Admin.Controllers
             {
                 laundryOnlineContext = laundryOnlineContext.Where(x => x.FullName.Contains(name) ||  x.Address.Contains(address) || x.EmailAddress.Contains(email));
             }
+            foreach (var item in _context.Orders)
+            {
+                if (item.OrderStatus == 2)
+                {
+                    item.PaymentStatus = 1;
+                    _context.Entry(item).State = EntityState.Modified;
+                }
+                else
+                {
+                    item.PaymentStatus = 0;
+                    _context.Entry(item).State = EntityState.Modified;
+                }
+            }
             return View(await laundryOnlineContext.ToPagedListAsync(page, pageSize));
         }
 
