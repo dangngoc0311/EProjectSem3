@@ -91,9 +91,17 @@
                                                         <option value=""> ----- Choose Coupon -----</option>
                                                         @foreach (var item in ViewBag.coupons)
                                                         {
-                                                            <option value="@item.CouponId"> @item.CouponName </option>
+                                                            if (item.CouponId == HttpContextAccessor.HttpContext.Session.GetString("Coupon"))
+                                                            {
+                                                                <option value="@item.CouponId" selected> @item.CouponName </option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.CouponId"> @item.CouponName </option>
+
+                                                            }
                                                         }
-                                                    </select>
+                                                        </select>
                                                     <button class="button">Apply Coupon</button>
                                                 </div>
                                                 <div class="coupon2">
